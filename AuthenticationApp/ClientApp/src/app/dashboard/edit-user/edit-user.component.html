@@ -1,0 +1,45 @@
+<form [formGroup]="form" autocomplete="off"><div class="col-md-12" style="padding-top: 100px;">
+  <table class="table table-bordered table-hover" >
+    <thead class="thead-light">
+     <tr>
+      <th>Id</th>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Date Of Birth</th>
+      <th>Actions</th>
+     </tr>
+    </thead>
+    <tbody>
+      <!-- <tr>
+        <td><input type="hidden" class="display"></td>
+            <td><input type="text" class="display" value="{{pd.fullname}}"></td>
+            <td><input type="text" class="display" value="{{pd.email}}"></td>
+            <td><input type="date" class="display" value="{{pd.dateOfBirth}}"></td>
+      </tr> -->
+      <tr *ngFor="let user of service.userRegistrationList">
+        <td>{{user.userId}}
+        </td>
+            <td > <span *ngIf="editEnabled == false">{{user.fullname}}</span>
+              <input type="text" formControlName="fullname" class="form-control" [hidden]="!editEnabled" value="{{user.fullname}}"/>
+            </td>
+            <td> <span *ngIf="editEnabled == false">{{user.email}}</span>
+              <input type="text" formControlName="email" class="form-control" [hidden]="!editEnabled" value="{{user.email}}"/>
+            </td>
+            <td> <span *ngIf="editEnabled == false">{{user.dateOfBirth}}</span>
+              <input type="text" formControlName="dateOfBirth" class="form-control" [hidden]="!editEnabled" value="{{user.dateOfBirth}}"/>
+            </td>
+
+            <td>
+
+              <button type="button" class="btn btn-info" [hidden]="editEnabled" (click)="enableEditMode(user)" >Edit</button>
+
+              <a  routerLink="['edit', user.userId]"
+              class="btn btn-success" (click)="onSubmit(user)" [hidden]="!editEnabled" >Save</a>
+              &nbsp;&nbsp;&nbsp;
+              <button type="button" class="btn btn-danger" >Delete</button>
+            </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</form>

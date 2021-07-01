@@ -1,0 +1,77 @@
+<form   [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off" >
+<div class="row">
+	<div class="col-md-6">
+		<div class="card" >
+			<div class="card-header bg-white" >
+				<h4 class="card-title">Create your account</h4>
+			</div>
+			<div class="card-block" style="width: 500px; margin-left: 20px;;">
+          <input type="hidden" name="userId" [value]="this.service.formData.userId" />
+					<div class="row">
+            <div class="form-group col-md-6">
+              <label for="fullname">Full Name</label>
+              <input id="fullname" type="text"  formControlName="fullname" class="form-control" placeholder="Full Name" >
+              <span *ngIf="!fullname.valid && fullname.touched" class="error-block">Fullname is Required.</span>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input id="email" type="text"  formControlName="email" validateEmail class="form-control" placeholder="Email"   >
+                <span *ngIf="!email.valid && email.touched" >
+                  <span class="error-block" *ngIf="email.hasError('required')">
+                  Email is Required.
+                  </span>
+                  <span class="error-block" *ngIf="email.hasError('email')">
+                    A valid email is Required.
+                  </span>
+                </span>
+            </div>
+          </div>
+					<div class="row">
+            <div class="form-group col-md-6">
+              <label for="password">Password</label>
+              <input id="password" type="password" minlength="6" formControlName="password" class="form-control" placeholder="Password" >
+              <span *ngIf="!password.valid && password.touched" class="error-block">
+                <span class="error-block" *ngIf="password.errors['required']">
+                Password is Required..
+                  </span>
+                  <span class="error-block" *ngIf="password.errors.minlength">
+                    Password must be at least 6 characters long.
+                      </span>
+              </span>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="confirmPassword">Confirm Password</label>
+              <input id="confirmPassword" type="password"  formControlName="confirmPassword" class="form-control" placeholder="Retype Password" >
+              <span *ngIf="!confirmPassword.valid && confirmPassword.touched" class="error-block">
+                <span class="error-block" *ngIf="confirmPassword.hasError('required')">
+                  Confirm Password is Required.
+                    </span>
+              </span>
+              <span class="error-block" *ngIf="form.hasError('notmatched') && confirmPassword.valid">
+                Confirm Password does not match.
+                  </span>
+            </div>
+          </div>
+          <div class="form-group">
+						<label for="dateOfBirth">Date Of Birth</label>
+						<input id="dateOfBirth" type="date" required formControlName="dateOfBirth" class="form-control"  >
+            <span *ngIf="!form.get('dateOfBirth').valid && form.get('dateOfBirth').touched" class="error-block">Date Of Birth is Required.</span>
+          </div>
+          <div class="form-group">
+						<input type="checkbox" id="terms" formControlName="terms"  (ngModelChange)="changed($event, 'terms')"  class="error-block">   <b> &nbsp;&nbsp; I accept the terms and conditions.</b>
+					</div>
+				<div class="form-group " style="float: right;">
+          <br>
+						<button type="submit" class="btn btn-primary" [disabled]="!rejected || form.invalid" >Sign Up</button>
+					</div>
+
+          <div class="form-group " >
+            <br>
+              <a routerLink="../login-form" routerLinkActive="router-link-active" >Already have an account ?</a>
+            </div>
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+
