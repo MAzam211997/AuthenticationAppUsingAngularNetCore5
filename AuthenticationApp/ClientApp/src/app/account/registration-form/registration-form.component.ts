@@ -49,7 +49,7 @@ export class RegistrationFormComponent implements OnInit {
     var reader = new FileReader();
     reader.onload = (event: any) => {
         this.user.pictureName = event.target.result;
-        alert(this.user.pictureName);
+        //alert(this.user.pictureName);
     }
     reader.readAsDataURL(this.fileToUpload);
 }

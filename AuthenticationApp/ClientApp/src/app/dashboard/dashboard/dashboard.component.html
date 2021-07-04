@@ -18,28 +18,32 @@
             <td><input type="date" class="display" value="{{pd.dateOfBirth}}"></td>
       </tr> -->
       <tr *ngFor="let user of service.userRegistrationList">
+        <!-- <b *ngIf="rowNumber > 0">{{rowNumber}}</b> -->
         <!-- <input type="hidden" formControlName="userId" class="form-control"  value="{{user.userId}}"/> -->
         <td>{{user.userId}}
         </td>
-            <td > <span *ngIf="editEnabled == false">{{user.fullname}}</span>
-              <input type="text" formControlName="fullname" class="form-control" [hidden]="!editEnabled" value="{{user.fullname}}"/>
+            <td > <span *ngIf="rowNumber != user.userId">{{user.fullname}}</span>
+              <input type="text" formControlName="fullname" class="form-control" [hidden]="!editEnabled" *ngIf="rowNumber == user.userId" value="{{user.fullname}}"/>
             </td>
-            <td> <span *ngIf="editEnabled == false">{{user.email}}</span>
-              <input type="text" formControlName="email" class="form-control" [hidden]="!editEnabled" value="{{user.email}}"/>
+            <td> <span *ngIf="rowNumber != user.userId">{{user.email}}</span>
+              <input type="text" formControlName="email" class="form-control" [hidden]="!editEnabled" *ngIf="rowNumber == user.userId" value="{{user.email}}"/>
             </td>
-            <td> <span *ngIf="editEnabled == false">{{user.dateOfBirth}}</span>
-              <input type="date" formControlName="dateOfBirth" class="form-control" [hidden]="!editEnabled" value="{{user.dateOfBirth}}"/>
+            <!-- <b>{{this.userId}}</b> -->
+            <td> <span *ngIf="rowNumber != user.userId">{{user.dateOfBirth}}</span>
+              <input type="date" formControlName="dateOfBirth" class="form-control" [hidden]="!editEnabled" *ngIf="rowNumber == user.userId"  value="{{user.dateOfBirth}}"/>
             </td>
 
             <td>
 
-              <a  routerLink="/dashboard" class="btn btn-info" [hidden]="editEnabled" (click)="enableEditMode(user)" >Edit</a>
+              <a  routerLink="/dashboard" class="fas fa-pencil text-info" [hidden]="editEnabled" (click)="enableEditMode(user)" ></a>
               &nbsp;
               <a  routerLink="/dashboard"
-              class="btn btn-success" (click)="onSubmit(form.value)" [hidden]="!editEnabled" >Save</a>
+              class="fas fa-save text-success" data-toggle="tooltip" tooltip="Tooltip on top" placement="top" data-placement="top" title="Save this record" (click)="onSubmit(form.value)" [hidden]="rowNumber != user.userId" >
+
+            </a>
               <!-- {{form.value | json}} -->
               &nbsp;
-              <a    class="btn btn-danger" (click)="onDelete(user.userId)" >Delete</a>
+              <a class="fas fa-trash text-danger" (click)="onDelete(user.userId)" ></a>
             </td>
       </tr>
     </tbody>

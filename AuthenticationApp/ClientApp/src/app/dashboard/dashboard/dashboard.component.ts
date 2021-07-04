@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   userId:number;
   user:UserRegistration;
   data: any[];
+  rowNumber:number;
   constructor(private toastr: ToastrService,public service: UserService) { }
 
   ngOnInit() {
@@ -31,8 +32,7 @@ export class DashboardComponent implements OnInit {
   }
   onSubmit(data:UserRegistration)
    {
-    //debugger
-     //alert(data.fullname);
+    this.rowNumber=0;
      this.service.putUser(this.userId,data).subscribe((user: UserRegistration) => {
       data = user;
       this.toastr.info('User has been updated successfully.', 'Update Confirmation !');
@@ -43,9 +43,11 @@ export class DashboardComponent implements OnInit {
    }
   enableEditMode(user:UserRegistration)
   {
+    this.rowNumber=user.userId;
     this.userId=user.userId;
     this.editEnabled=true;
     this.user=user;
+    //this.service.getAllUsers();
   }
   onDelete(id){
     if(confirm("Are you sure you want to delete the record ?"))

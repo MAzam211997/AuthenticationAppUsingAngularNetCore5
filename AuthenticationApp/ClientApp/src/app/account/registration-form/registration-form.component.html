@@ -64,15 +64,16 @@
 
             <!-- <button type="button" class="btn btn-primary"  >Upload File</button> -->
 
-            <span class="upload" *ngIf="progress > 0">
+            <!-- <span class="upload" *ngIf="progress > 0">
               {{progress}} %
             </span>
             <span class="upload" *ngIf="message">
               {{message}}
-            </span>
+            </span> -->
           </div>
+
           <div class="form-group col-md-6">
-            <img style="border-radius: 100px;" height="200" width="200" [src]="this.user.pictureName" class="thumbnail" />
+            <img style="border-radius: 100px; " alt="Profile Picture" height="100" width="100" [src]="this.user.pictureName" class="thumbnail" />
           </div>
         </div>
           <div class="form-group">

@@ -1,3 +1,4 @@
+import { DocumentComponent } from './documenter/document/document.component';
 import { EditUserComponent } from './dashboard/edit-user/edit-user.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { AccountModule } from './account/account.module';
@@ -17,6 +18,9 @@ import { RegistrationFormComponent } from './account/registration-form/registrat
 import { LoginFormComponent } from './account/login-form/login-form.component';
 import { UserService } from './shared/services/user.service';
 import { ToastrModule } from 'ngx-toastr';
+import { DocumenterModule } from './documenter/documenter.module';
+import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
+//import { TooltipModule } from 'ng2-tooltip-directive/lib/tooltip.module';
 
 @NgModule({
   declarations: [
@@ -28,12 +32,14 @@ import { ToastrModule } from 'ngx-toastr';
     RegistrationFormComponent,
     LoginFormComponent,
     DashboardComponent,
-    EditUserComponent
+    EditUserComponent,
+    DocumentComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    //TooltipModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
        { path: '', component: LoginFormComponent, pathMatch: 'full' },
@@ -43,6 +49,7 @@ import { ToastrModule } from 'ngx-toastr';
       { path: 'registration-form', component: RegistrationFormComponent },
       { path: 'login-form', component: LoginFormComponent },
       { path: 'edit-user', component: EditUserComponent },
+      { path: 'document', component: DocumentComponent },
 
 
     ]),
@@ -52,6 +59,8 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    //DocumenterModule,
+    DocumentEditorContainerAllModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
