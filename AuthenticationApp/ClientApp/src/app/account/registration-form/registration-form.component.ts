@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpEventType } from '@angular/common/http';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, NgForm, FormsModule,ReactiveFormsModule, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs/internal/Observable';
 import { UserRegistration } from 'src/app/shared/models/UserRegistration.model';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -15,7 +18,16 @@ export class RegistrationFormComponent implements OnInit {
   user:UserRegistration=new UserRegistration;
   terms:boolean;
   rejected:boolean;
-  constructor(public service: UserService,private router: Router,private fb: FormBuilder ) {
+  progress: any;
+  message: any;
+  thumb$: Observable<string>;
+  @Output() public onUploadFinished =new EventEmitter();
+  fileToUpload: File;
+  imageUrl: any;
+  @ViewChild('file', {
+    static: true
+}) file;
+  constructor(private toastr: ToastrService,public service: UserService,private router: Router,private fb: FormBuilder, private http:HttpClient ) {
 
   }
 
@@ -32,6 +44,15 @@ export class RegistrationFormComponent implements OnInit {
       },this.matchPasswords);
    }
 
+   onSelectFile(file: FileList) {
+    this.fileToUpload = file.item(0);
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+        this.user.pictureName = event.target.result;
+        alert(this.user.pictureName);
+    }
+    reader.readAsDataURL(this.fileToUpload);
+}
    matchPasswords(fg:FormGroup):Validators
    {
      return fg.get('password').value === fg.get('confirmPassword').value ? null :
@@ -75,12 +96,34 @@ export class RegistrationFormComponent implements OnInit {
   }
    onSubmit(user:UserRegistration)
    {
+     //this.uploadFile(user.files);
      this.service.CreateUser(user).subscribe((creationStatus) => {
+      this.toastr.success('Account has been created successfully.', 'Congratulations !');
       this.resetForm(this.form);
      }, (error) => {
        console.log(error);
      });
    }
+   public uploadFile=(files) => {
+    if(files.length === 0)
+    return;
+    debugger
+    let fileToUpload =<File>files[0];
+    const formData=new FormData();
+    formData.append('file',fileToUpload,fileToUpload.name);
+    this.onSelectFile(files);
+    this.http.post("https://localhost:44326/api/Users/"+'UploadPicture/',formData,{reportProgress:true, observe: 'events'}).subscribe(event => {
+      if(event.type === HttpEventType.UploadProgress)
+      {
+        this.progress=Math.round(100 * event.loaded / event.total);
+      }
+      else if(event.type === HttpEventType.Response)
+      {
+          this.message="Picture uploaded successfully.";
+          this.onUploadFinished.emit(event.body as any);
+      }
+    });
+  }
    resetForm(form:FormGroup)
    {
      form.reset;

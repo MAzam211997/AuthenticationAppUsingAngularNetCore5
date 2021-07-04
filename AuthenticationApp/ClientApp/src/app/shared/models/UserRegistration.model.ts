@@ -5,4 +5,5 @@ export class UserRegistration {
     password: string="";
     confirmPassword: string="";
     dateOfBirth: Date;
+    pictureName:string;
 }

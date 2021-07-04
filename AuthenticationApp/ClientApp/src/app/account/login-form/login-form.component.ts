@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { UserRegistration } from 'src/app/shared/models/UserRegistration.model';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -16,7 +17,7 @@ export class LoginFormComponent implements OnInit {
   model : any={};
   errorMessage: any;
   user:UserRegistration=new UserRegistration;
-  constructor(public service: UserService,private router: Router) {
+  constructor(private toastr: ToastrService,public service: UserService,private router: Router) {
 
   }
 
@@ -37,6 +38,7 @@ export class LoginFormComponent implements OnInit {
           debugger;
       },
       error => {
+        this.toastr.error('Invalid email and/or password.', 'Invalid Input !');
         this.errorMessage = error.message;
       });
   }

@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -15,6 +16,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { RegistrationFormComponent } from './account/registration-form/registration-form.component';
 import { LoginFormComponent } from './account/login-form/login-form.component';
 import { UserService } from './shared/services/user.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,13 @@ import { UserService } from './shared/services/user.service';
       { path: 'edit-user', component: EditUserComponent },
 
 
-    ])
+    ]),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

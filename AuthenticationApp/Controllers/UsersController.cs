@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AuthenticationApp.Data;
 using AuthenticationApp.Models;
+using System.IO;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuthenticationApp.Controllers
 {
@@ -15,8 +18,8 @@ namespace AuthenticationApp.Controllers
     public class UsersController : ControllerBase
     {
         private readonly AppDataContext _context;
-
-        public UsersController(AppDataContext context)
+        public static string imageName = "";
+       public UsersController(AppDataContext context)
         {
             _context = context;
         }
@@ -41,6 +44,20 @@ namespace AuthenticationApp.Controllers
 
             return users;
         }
+
+
+
+        // POST: api/Users
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Users>> Register(Users users)
+        {
+            users.PictureName = imageName;
+            _context.Users.Add(users);
+            await _context.SaveChangesAsync();
+            return Ok(users);
+        }
+
         [HttpPost("{user}")]
         public async Task<ActionResult<Users>> Login(Users user)
         {
@@ -61,12 +78,16 @@ namespace AuthenticationApp.Controllers
         public async Task<ActionResult<Users>> UpdateUser(int id,[FromBody] Users userData)
         {
 
-            if (id != userData.UserId)
+            if (id == 0)
             {
                 return BadRequest();
             }
-
-            _context.Entry(userData).State = EntityState.Modified;
+            var user = _context.Users.Find(id);
+            user.Email = userData.Email;
+            user.Fullname= userData.Fullname;
+            user.DateOfBirth = userData.DateOfBirth;
+            _context.Users.Update(user);
+            //_context.Entry(userData).State = EntityState.Modified;
 
             try
             {
@@ -87,18 +108,8 @@ namespace AuthenticationApp.Controllers
             return Ok(userData);
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Users>> Register(Users users)
-        {
-            _context.Users.Add(users);
-            await _context.SaveChangesAsync();
-            return Ok(users);
-        }
-
         // DELETE: api/Users/5
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var users = await _context.Users.FindAsync(id);
@@ -116,6 +127,32 @@ namespace AuthenticationApp.Controllers
         private bool UsersExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
+        }
+        //[AllowAnonymous]
+        [HttpPost("UploadPicture")]
+        public async Task<IActionResult> UploadPicture()
+        {
+            var file = Request.Form.Files[0];
+            var folderName = Path.Combine("Assets","Images");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(),folderName);
+
+            if (file.Length > 0)
+            {
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var dbPath = Path.Combine(folderName, fileName);
+                imageName = fileName;
+                using (var stream =new FileStream(fullPath,FileMode.Create))
+                {
+                   await file.CopyToAsync(stream);
+                }
+                return Ok(new { dbPath });
+            }
+            else
+            {
+                return BadRequest();
+            }
+
         }
     }
 }

@@ -5,3 +5,8 @@ border-color: red;
 {
 color: red;
 }
+.upload{
+  font-weight: bold;
+  color: greenyellow;
+  line-height: 30px;;
+}

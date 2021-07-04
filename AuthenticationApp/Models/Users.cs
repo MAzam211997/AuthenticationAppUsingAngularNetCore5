@@ -13,6 +13,7 @@ namespace AuthenticationApp.Models
 		public String Fullname { get; set; }
 		public String Email { get; set; }
 		public String Password { get; set; }
+		public String PictureName { get; set; }
 		public DateTime DateOfBirth { get; set; }
 	}
 }

@@ -1,11 +1,15 @@
+using System.IO;
 using AuthenticationApp.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
@@ -32,6 +36,12 @@ namespace AuthenticationApp
             services.AddDbContext<AppDataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCors();
+            services.Configure<FormOptions>(option =>
+            {
+                option.ValueLengthLimit = int.MaxValue;
+                option.MultipartBodyLengthLimit = int.MaxValue;
+                option.MemoryBufferThreshold = int.MaxValue;
+            });
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthenticationApp", Version = "v1" });
@@ -58,6 +68,11 @@ namespace AuthenticationApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Assets")),
+                RequestPath = new PathString("/Assets")
+            });
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
