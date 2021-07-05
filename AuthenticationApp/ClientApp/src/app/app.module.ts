@@ -1,3 +1,6 @@
+import { FormfieldsComponent } from './questions/formfields/formfields.component';
+import { OptionsComponent } from './questions/options/options.component';
+import { QuestionComponent } from './questions/question/question.component';
 import { DocumentComponent } from './documenter/document/document.component';
 import { EditUserComponent } from './dashboard/edit-user/edit-user.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
@@ -20,6 +23,7 @@ import { UserService } from './shared/services/user.service';
 import { ToastrModule } from 'ngx-toastr';
 import { DocumenterModule } from './documenter/documenter.module';
 import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
+import { QuestionsService } from './shared/services/questions.service';
 //import { TooltipModule } from 'ng2-tooltip-directive/lib/tooltip.module';
 
 @NgModule({
@@ -33,7 +37,10 @@ import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-docume
     LoginFormComponent,
     DashboardComponent,
     EditUserComponent,
-    DocumentComponent
+    DocumentComponent,
+    QuestionComponent,
+    OptionsComponent,
+    FormfieldsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,6 +57,7 @@ import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-docume
       { path: 'login-form', component: LoginFormComponent },
       { path: 'edit-user', component: EditUserComponent },
       { path: 'document', component: DocumentComponent },
+      { path: 'question', component: QuestionComponent },
 
 
     ]),
@@ -62,7 +70,7 @@ import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-docume
     //DocumenterModule,
     DocumentEditorContainerAllModule
   ],
-  providers: [UserService],
+  providers: [UserService,QuestionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

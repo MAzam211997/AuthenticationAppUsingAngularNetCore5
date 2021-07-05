@@ -27,6 +27,13 @@ namespace AuthenticationApp.Controllers
         {
             return await _context.Questions.ToListAsync();
         }
+        
+        // GET: api/Questions
+        [HttpGet("GetAllFormFields")]
+        public async Task<ActionResult<IEnumerable<FormFields>>> GetAllFormFields()
+        {
+            return await _context.FormFields.ToListAsync();
+        }
 
         // GET: api/Questions/5
         [HttpGet("{id}")]

@@ -30,7 +30,8 @@ export class UserService
    return this.http.post(this.baseURL, register);
   }
 
-  public uploadFile=(files) => {
+  public uploadFile=(files) =>
+  {
     if(files.length === 0)
     return;
     let fileToUpload =<File>files[0];
@@ -50,8 +51,6 @@ export class UserService
   }
   putUser(id,formData)
   {
-    //debugger
-    //alert(formData);
     return this.http.put(this.baseURL+id,formData);
   }
   deleteUser(id)
@@ -63,8 +62,10 @@ export class UserService
     this.http.get(this.baseURL).toPromise().then(result=>this.userRegistrationList=result as UserRegistration[]);
   }
 
-  Login(user:UserRegistration){
+  login(user:UserRegistration){
     return this.http.post(this.baseURL+ 'Login', user);
   }
-
+  convertStringToDate(date) {
+    return new Date(`${date.year}-${date.month}-${date.day}`);
+  }
 }

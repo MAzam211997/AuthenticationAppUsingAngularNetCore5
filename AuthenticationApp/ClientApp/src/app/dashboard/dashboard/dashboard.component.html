@@ -30,7 +30,7 @@
             </td>
             <!-- <b>{{this.userId}}</b> -->
             <td> <span *ngIf="rowNumber != user.userId">{{user.dateOfBirth}}</span>
-              <input type="date" formControlName="dateOfBirth" class="form-control" [hidden]="!editEnabled" *ngIf="rowNumber == user.userId"  value="{{user.dateOfBirth}}"/>
+              <input type="date" formControlName="dateOfBirth" class="form-control" [hidden]="!editEnabled" *ngIf="rowNumber == user.userId"  value="{{this.service.convertStringToDate(user.dateOfBirth)}}"/>
             </td>
 
             <td>

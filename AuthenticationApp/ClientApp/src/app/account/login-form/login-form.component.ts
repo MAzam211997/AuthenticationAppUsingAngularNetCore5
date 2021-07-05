@@ -30,7 +30,7 @@ export class LoginFormComponent implements OnInit {
   }
   login(){
     debugger;
-    this.service.Login(this.model).subscribe(
+    this.service.login(this.model).subscribe(
       data => {
         debugger;
 
