@@ -17,7 +17,7 @@
     <br>
 
   </div>
-  <div  *ngIf="this.formFieldId > 1" class="container col-md-6" >
+  <div  *ngIf="this.formFieldId > 1" class="col-md-6" >
     <label>Add Question Options</label>
     <table class="table table-striped table-bordered">
       <thead>
@@ -29,7 +29,7 @@
           </tr>
       </thead>
       <tbody>
-          <tr *ngFor="let field of fieldArray; let i = index">
+          <tr cdkDropList *ngFor="let field of fieldArray; let i = index">
               <td>
                 {{field.code}}
                   <!-- <input [(ngModel)]="field.optionText" class="form-control" type="text" name="{{field.optionText}}" /> -->
@@ -66,7 +66,34 @@
      <button type="button" class="btn btn-primary">Save</button>
   </div>
   </div>
+  <div class="col-md-6">
+    <h2>Movies</h2>
+    <div
+    cdkDropList
+    #moviesList="cdkDropList"
+    [cdkDropListData]="MoviesList"
+    [cdkDropListConnectedTo]="[doneMovieList]"
+    class="movie-list"
+    (cdkDropListDropped)="onDrop($event)">
+    <div class="movie-block" *ngFor="let moviesList of MoviesList" cdkDrag>{{moviesList}}</div>
+  </div>
+  </div>
+
+  <div class="col-md-6">
+    <h2>Movies Watched</h2>
+    <div
+    cdkDropList
+    #doneMovieList="cdkDropList"
+    [cdkDropListData]="MoviesWatched"
+    [cdkDropListConnectedTo]="[moviesList]"
+    class="movie-list"
+    (cdkDropListDropped)="onDrop($event)">
+    <div class="movie-block" *ngFor="let moviesWatched of MoviesWatched" cdkDrag>{{moviesWatched}}</div>
+  </div>
+  </div>
 </div>
+
+
 <!-- <div class="row" *ngIf="this.formFieldId > 1">
   <div class="col-md-5">
     <input placeholder="Option Text" type="text" class="form-control" style="width: 480px;" />

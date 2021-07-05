@@ -2,6 +2,7 @@ import { Options } from './../../shared/models/Options.model';
 import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from 'src/app/shared/services/questions.service';
 import { ToastrService } from 'ngx-toastr';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-question',
@@ -13,7 +14,7 @@ export class QuestionComponent implements OnInit {
   dynamicArray: Array<Options> = [];
   newDynamic: any = {};
   formFieldId:any;
-  isOneOptionAdded:boolean=false;
+  isOneOptionAdded:number=0;
   ngOnInit()
   {
     this.service.getAllFormFields();
@@ -25,12 +26,14 @@ export class QuestionComponent implements OnInit {
      newAttribute: any = {};
 
     addFieldValue() {
-      this.isOneOptionAdded=true;
+      this.isOneOptionAdded++;
         this.fieldArray.push(this.newAttribute)
         this.newAttribute = {};
     }
 
-    deleteFieldValue(index) {
+    deleteFieldValue(index)
+    {
+      this.isOneOptionAdded--;
         this.fieldArray.splice(index, 1);
     }
 
@@ -46,6 +49,34 @@ export class QuestionComponent implements OnInit {
       //this.toastr.success('New row added successfully', 'New Row');
       //console.log(this.dynamicArray);
     return true;
+  }
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.fieldArray, event.previousIndex, event.currentIndex);
+  }
+
+  MoviesList = [
+    'The Far Side of the World',
+    'Morituri',
+    'Napoleon Dynamite',
+    'Pulp Fiction',
+    'Blade Runner',
+    'Cool Hand Luke',
+    'Heat',
+    'Juice'
+  ];
+
+  MoviesWatched = [
+  ];
+
+  onDrop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
 
   deleteRow(index)
