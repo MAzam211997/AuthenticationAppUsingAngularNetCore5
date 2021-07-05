@@ -13,7 +13,7 @@ export class QuestionComponent implements OnInit {
   dynamicArray: Array<Options> = [];
   newDynamic: any = {};
   formFieldId:any;
-
+  isOneOptionAdded:boolean=false;
   ngOnInit()
   {
     this.service.getAllFormFields();
@@ -25,6 +25,7 @@ export class QuestionComponent implements OnInit {
      newAttribute: any = {};
 
     addFieldValue() {
+      this.isOneOptionAdded=true;
         this.fieldArray.push(this.newAttribute)
         this.newAttribute = {};
     }
