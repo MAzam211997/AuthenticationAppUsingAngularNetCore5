@@ -4,14 +4,16 @@ using AuthenticationApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AuthenticationApp.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210705061322_StudentTables")]
+    partial class StudentTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +46,6 @@ namespace AuthenticationApp.Migrations
                     b.Property<int>("FormFieldId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FormFieldsFormFieldId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
@@ -58,7 +57,7 @@ namespace AuthenticationApp.Migrations
 
                     b.HasKey("OptionId");
 
-                    b.HasIndex("FormFieldsFormFieldId");
+                    b.HasIndex("FormFieldId");
 
                     b.HasIndex("QuestionId");
 
@@ -116,7 +115,9 @@ namespace AuthenticationApp.Migrations
                 {
                     b.HasOne("AuthenticationApp.Models.FormFields", "FormFields")
                         .WithMany()
-                        .HasForeignKey("FormFieldsFormFieldId");
+                        .HasForeignKey("FormFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AuthenticationApp.Models.Questions", "Questions")
                         .WithMany()

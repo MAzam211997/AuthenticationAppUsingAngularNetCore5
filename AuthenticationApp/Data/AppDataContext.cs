@@ -14,5 +14,8 @@ namespace AuthenticationApp.Data
 
 		}
 		public DbSet<Users> Users { get; set; }
+		public DbSet<FormFields> FormFields  { get; set; }
+		public DbSet<Questions> Questions{ get; set; }
+		public DbSet<Options> Options { get; set; }
 	}
 }
