@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AuthenticationApp.Data;
 using AuthenticationApp.Models;
+using AuthenticationApp.ViewModels;
+using AutoMapper;
 
 namespace AuthenticationApp.Controllers
 {
@@ -15,10 +17,11 @@ namespace AuthenticationApp.Controllers
     public class QuestionsController : ControllerBase
     {
         private readonly AppDataContext _context;
-
-        public QuestionsController(AppDataContext context)
+        private readonly IMapper _mapper;
+        public QuestionsController(AppDataContext context, IMapper mapper)
         {
-            _context = context;
+            _context = context; 
+            _mapper = mapper;
         }
 
         // GET: api/Questions
@@ -33,6 +36,13 @@ namespace AuthenticationApp.Controllers
         public async Task<ActionResult<IEnumerable<FormFields>>> GetAllFormFields()
         {
             return await _context.FormFields.ToListAsync();
+        }
+        
+        // GET: api/Questions
+        [HttpGet("GetAllOptions")]
+        public async Task<ActionResult<IEnumerable<Options>>> GetAllOptions()
+        {
+            return await _context.Options.ToListAsync();
         }
 
         // GET: api/Questions/5
@@ -83,12 +93,30 @@ namespace AuthenticationApp.Controllers
         // POST: api/Questions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Questions>> PostQuestions(Questions questions)
-        {
-            _context.Questions.Add(questions);
-            await _context.SaveChangesAsync();
+        public async Task<ActionResult<Questions>> CreateQuestion(QuestionsDto[] questions)
+        {           
+            Questions questions1 = new Questions();
+            bool isRowSaved = false;
+            foreach (var q in questions)
+            {
+                Options options1 = new Options();
+                if (!isRowSaved)
+                {
+                    questions1.Description = q.Question;
+                    questions1.FormFieldId = q.QuestionType;
+                    _context.Questions.Add(questions1);
+                    await _context.SaveChangesAsync();
+                    isRowSaved = true;
+                }
+                options1.OptionText = q.OptionText;
+                options1.IsCorrect = q.IsCorrect;
+                options1.FormFieldId = q.QuestionType;
+                options1.QuestionId = questions1.QuestionId;
 
-            return CreatedAtAction("GetQuestions", new { id = questions.QuestionId }, questions);
+                _context.Options.Add(options1);
+                await _context.SaveChangesAsync();
+            }
+            return Ok();
         }
 
         // DELETE: api/Questions/5

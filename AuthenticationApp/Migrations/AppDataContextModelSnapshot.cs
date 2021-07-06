@@ -56,11 +56,14 @@ namespace AuthenticationApp.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("QuestionsQuestionId")
+                        .HasColumnType("int");
+
                     b.HasKey("OptionId");
 
                     b.HasIndex("FormFieldsFormFieldId");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("QuestionsQuestionId");
 
                     b.ToTable("Options");
                 });
@@ -78,9 +81,12 @@ namespace AuthenticationApp.Migrations
                     b.Property<int>("FormFieldId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FormFieldsFormFieldId")
+                        .HasColumnType("int");
+
                     b.HasKey("QuestionId");
 
-                    b.HasIndex("FormFieldId");
+                    b.HasIndex("FormFieldsFormFieldId");
 
                     b.ToTable("Questions");
                 });
@@ -120,9 +126,7 @@ namespace AuthenticationApp.Migrations
 
                     b.HasOne("AuthenticationApp.Models.Questions", "Questions")
                         .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionsQuestionId");
 
                     b.Navigation("FormFields");
 
@@ -133,9 +137,7 @@ namespace AuthenticationApp.Migrations
                 {
                     b.HasOne("AuthenticationApp.Models.FormFields", "FormFields")
                         .WithMany()
-                        .HasForeignKey("FormFieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FormFieldsFormFieldId");
 
                     b.Navigation("FormFields");
                 });

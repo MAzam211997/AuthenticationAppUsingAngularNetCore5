@@ -10,6 +10,7 @@ namespace AuthenticationApp.Models
     public class Options
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OptionId { get; set; }
         public String OptionText { get; set; }
         public bool IsCorrect { get; set; }
@@ -17,8 +18,8 @@ namespace AuthenticationApp.Models
         public int QuestionId { get; set; }
 
         //[ForeignKey("FormFieldId")]
-        public virtual FormFields FormFields { get; set; }
-        [ForeignKey("QuestionId")]
-        public virtual Questions Questions { get; set; }
+        public FormFields FormFields { get; set; }
+       // [ForeignKey("QuestionId")]
+        public Questions Questions { get; set; }
     }
 }

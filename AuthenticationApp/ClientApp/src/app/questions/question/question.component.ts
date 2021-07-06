@@ -1,8 +1,11 @@
+import { Questions } from './../../shared/models/Questions.model';
 import { Options } from './../../shared/models/Options.model';
 import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from 'src/app/shared/services/questions.service';
 import { ToastrService } from 'ngx-toastr';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { QuestionsDto } from 'src/app/shared/DTOs/QuestionsDto.model';
 
 @Component({
   selector: 'app-question',
@@ -10,25 +13,47 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit {
+  form: FormGroup;
   constructor(private toastr: ToastrService,public service: QuestionsService) { }
   dynamicArray: Array<Options> = [];
   newDynamic: any = {};
   formFieldId:any;
   isOneOptionAdded:number=0;
+  fieldArray: Array<QuestionsDto> = [];
+     newField: any = {};
+
   ngOnInit()
   {
     this.service.getAllFormFields();
-    //this.newDynamic = {name: "", email: "",phone:""};
+    this.service.getAllQuestions();
+    this.service.getAllOptions();
     this.dynamicArray.push(this.newDynamic);
+    // this.form = new FormGroup
+    //   ({
+    //     question: new FormControl('',[Validators.required]),
+    //     questionType: new FormControl('', [Validators.required]),
+    //     correctAnswer: new FormControl('',[Validators.required]),
+    //   });
   }
 
-   fieldArray: Array<any> = [];
-     newAttribute: any = {};
+onSubmit(question: any)
+{
+  debugger
+  this.service.addQuestion(question).subscribe((creationStatus) => {
+    this.toastr.success('Question with provided option(s) has been created successfully.', 'Question Created !');
+    //this.resetForm(this.form);
+   }, (error) => {
+     console.log(error);
+   });
+}
 
-    addFieldValue() {
+
+    addFieldValue()
+    {
+      debugger
       this.isOneOptionAdded++;
-        this.fieldArray.push(this.newAttribute)
-        this.newAttribute = {};
+      this.fieldArray.push(this.newField)
+      this.newField = {optionText:'', question:this.newField.question, questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect};
     }
 
     deleteFieldValue(index)

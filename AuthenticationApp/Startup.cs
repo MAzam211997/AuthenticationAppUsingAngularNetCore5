@@ -1,5 +1,8 @@
 using System.IO;
 using AuthenticationApp.Data;
+using AuthenticationApp.Models;
+using AuthenticationApp.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,6 +45,10 @@ namespace AuthenticationApp
                 option.MultipartBodyLengthLimit = int.MaxValue;
                 option.MemoryBufferThreshold = int.MaxValue;
             });
+            services.AddAutoMapper(typeof(Startup));
+            //Mapper.CreateMap<QuestionsDto, Questions>();
+
+
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthenticationApp", Version = "v1" });

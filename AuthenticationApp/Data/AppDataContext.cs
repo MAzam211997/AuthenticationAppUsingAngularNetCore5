@@ -17,5 +17,17 @@ namespace AuthenticationApp.Data
 		public DbSet<FormFields> FormFields  { get; set; }
 		public DbSet<Questions> Questions{ get; set; }
 		public DbSet<Options> Options { get; set; }
-	}
+
+
+
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Options>(entity =>
+        //    {
+        //        entity.ToTable("Options");
+        //        entity.Property(e => e.OptionId).HasColumnName("OptionId").ValueGeneratedOnAdd();
+        //    });
+        //}
+    }
 }

@@ -14,7 +14,8 @@ namespace AuthenticationApp.Models
         public String Description { get; set; }
 
         public int FormFieldId { get; set; }
-        [ForeignKey("FormFieldId")]
-        public virtual FormFields FormFields { get; set; }
+        //[ForeignKey("FormFieldId")]
+        public FormFields FormFields { get; set; }
+
     }
 }
