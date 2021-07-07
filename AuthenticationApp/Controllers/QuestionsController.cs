@@ -28,14 +28,14 @@ namespace AuthenticationApp.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<OptionsDto>> GetQuestions()
         {
-            var options = (from option in _context.Options.ToList()
-                           join q in _context.Questions.ToList() on option.QuestionId equals q.QuestionId
-                            select new OptionsDto()
+            var options = (from option in _context.Options.Include(x => x.FormFields).ToList()
+                           join q in _context.Questions.Include(x=>x.FormFields).ToList() on option.QuestionId equals q.QuestionId
+                           select new OptionsDto()
                             {
                                  Option = _context.Options.Where(x=>x.QuestionId == q.QuestionId).ToList(),
                                  IsCorrect=option.IsCorrect,
                                  Description=q.Description, // option.Questions.Description,
-                                 FormFieldId=option.FormFieldId,
+                                 FormFieldId= q.FormFieldId,
                                  Questions= _context.Questions.ToList(),
                             });
             return options.ToList();// _context.Options.Include(x => x.Questions).Include(x => x.FormFields).ToList();
@@ -108,24 +108,30 @@ namespace AuthenticationApp.Controllers
         {           
             Questions questions1 = new Questions();
             bool isRowSaved = false;
-            foreach (var q in questions)
+            if (questions.Length > 0)
             {
-                Options options1 = new Options();
-                if (!isRowSaved)
+                foreach (var q in questions)
                 {
-                    questions1.Description = q.Description;
-                    questions1.FormFieldId = q.FormFieldId;
-                    _context.Questions.Add(questions1);
-                    await _context.SaveChangesAsync();
-                    isRowSaved = true;
-                }
-                options1.OptionText = q.OptionText;
-                options1.IsCorrect = q.IsCorrect;
-                options1.FormFieldId = q.FormFieldId;
-                options1.QuestionId = questions1.QuestionId;
+                    Options options1 = new Options();
+                    if (!isRowSaved)
+                    {
+                        questions1.Description = q.Description;
+                        questions1.FormFieldId = q.FormFieldId;
+                        _context.Questions.Add(questions1);
+                        await _context.SaveChangesAsync();
+                        isRowSaved = true;
+                    }
+                    if (q.FormFieldId != 1)
+                    {
+                        options1.OptionText = q.OptionText;
+                        options1.IsCorrect = q.IsCorrect;
+                        options1.FormFieldId = q.FormFieldId;
+                        options1.QuestionId = questions1.QuestionId;
 
-                _context.Options.Add(options1);
-                await _context.SaveChangesAsync();
+                        _context.Options.Add(options1);
+                        await _context.SaveChangesAsync();
+                    }
+                }
             }
             return Ok();
         }

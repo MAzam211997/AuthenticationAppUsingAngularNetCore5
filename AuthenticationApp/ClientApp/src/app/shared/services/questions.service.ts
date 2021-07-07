@@ -22,10 +22,10 @@ export class QuestionsService
 
   }
 
-  addQuestion(question:Questions)
+  addQuestion(question:any)
   {
     //,options:Options
-    debugger
+    //debugger
    return this.http.post(this.baseURL, question);
   }
 

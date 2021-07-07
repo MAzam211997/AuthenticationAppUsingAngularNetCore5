@@ -1,8 +1,8 @@
-<form (ngSubmit)="onSubmit(questionsForm.value)" #questionsForm="ngForm">
+<form autocomplete="off" #questionsForm="ngForm">
 
   <div class="row">
     <div class="col-md-6">
-
+   <input type="hidden"  [(ngModel)]="newField.formFieldId" id="formFieldId" name="formFieldId">
       <label>Question Description</label>
       <div>
         <textarea class="form-control" [(ngModel)]="newField.description" id="description" name="description" rows="5" cols="70"></textarea>
@@ -40,7 +40,6 @@
             <tr *ngFor="let field of fieldArray; let i = index">
                 <td>
                   {{field.optionText}}
-                    <!-- <input [(ngModel)]="field.optionText" class="form-control" type="text" name="{{field.optionText}}" /> -->
                 </td>
                 <td>
                   <span *ngIf="field.IsCorrect">
@@ -49,7 +48,6 @@
                   <span *ngIf="!field.IsCorrect">
                     No
                   </span>
-                    <!-- <input [(ngModel)]="field.optionText" class="form-control" type="text" name="{{field.optionText}}" /> -->
                 </td>
                 <td>
                     <i class="fa fa-trash fa-1x text-danger" (click)="deleteFieldValue(i)"></i>
@@ -111,7 +109,9 @@
 <tr *ngFor="let question of this.service.questionsList; let i=index;">
   <td>{{question.description}}</td>
   <td >
+    <!-- {{question.formFieldId | json}} -->
     <div  *ngIf="question.formFieldId == 1">
+
       <div>
         <textarea class="form-control" placeholder="{{question.description}}" [(ngModel)]="newField.questionAns" id="questionAns" name="questionAns" rows="5" cols="70"></textarea>
       </div>

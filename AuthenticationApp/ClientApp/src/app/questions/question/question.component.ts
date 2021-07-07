@@ -38,14 +38,24 @@ export class QuestionComponent implements OnInit {
 
 onSubmit(question: any)
 {
+  this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.formFieldId};
+  this.fieldArray.push(this.newField);
+  if(this.formFieldId != 1 && this.formFieldId != 0)
+    {
+      this.isOneOptionAdded=1;
+    }else {
+      this.isOneOptionAdded=0;
+    }
   debugger
   this.service.addQuestion(question).subscribe((creationStatus) => {
     this.toastr.success('Question with provided option(s) has been created successfully.', 'Question Created !');
-    //this.resetForm(this.form);
+    //this.service.getAllFormFields();
+    this.service.getAllQuestions();
+    this.service.getAllOptions();
+    this.newField = {optionText:'', description:'',  questionType:'', IsCorrect:'', formFieldId:''};
    }, (error) => {
      console.log(error);
    });
-   this.service.getAllOptions();
 }
 
 
@@ -53,8 +63,22 @@ onSubmit(question: any)
     {
       debugger
       this.isOneOptionAdded++;
-      this.fieldArray.push(this.newField)
-      this.newField = {optionText:'', description:this.newField.description, questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.formFieldId};
+      // if(this.fieldArray.length == 1)
+      // {
+        this.fieldArray.push(this.newField);
+      this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
+      // }
+      // else{
+
+      // this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
+      // this.fieldArray.push(this.newField);
+      // }
+      if(this.formFieldId != 1 && this.formFieldId != 0)
+    {
+      this.isOneOptionAdded=1;
+    }else {
+      this.isOneOptionAdded=0;
+    }
     }
 
     deleteFieldValue(index)
@@ -67,6 +91,12 @@ onSubmit(question: any)
   onSelect(formfieldid)
   {
     this.formFieldId=formfieldid;
+    if(this.formFieldId != 1 && this.formFieldId != 0)
+    {
+      this.isOneOptionAdded=1;
+    }else {
+      this.isOneOptionAdded=0;
+    }
   }
   addRow()
   {
