@@ -26,23 +26,34 @@ namespace AuthenticationApp.Controllers
 
         // GET: api/Questions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Questions>>> GetQuestions()
+        public ActionResult<IEnumerable<OptionsDto>> GetQuestions()
         {
-            return await _context.Questions.ToListAsync();
+            var options = (from option in _context.Options.ToList()
+                           join q in _context.Questions.ToList() on option.QuestionId equals q.QuestionId
+                            select new OptionsDto()
+                            {
+                                 Option = _context.Options.Where(x=>x.QuestionId == q.QuestionId).ToList(),
+                                 IsCorrect=option.IsCorrect,
+                                 Description=q.Description, // option.Questions.Description,
+                                 FormFieldId=option.FormFieldId,
+                                 Questions= _context.Questions.ToList(),
+                            });
+            return options.ToList();// _context.Options.Include(x => x.Questions).Include(x => x.FormFields).ToList();
         }
-        
-        // GET: api/Questions
+
+        // GET: api/GetAllFormFields
         [HttpGet("GetAllFormFields")]
         public async Task<ActionResult<IEnumerable<FormFields>>> GetAllFormFields()
         {
             return await _context.FormFields.ToListAsync();
         }
-        
-        // GET: api/Questions
-        [HttpGet("GetAllOptions")]
-        public async Task<ActionResult<IEnumerable<Options>>> GetAllOptions()
+
+        // GET: api/GetAllOptionsWithQuestions
+        [HttpGet("GetAllOptionsWithQuestions")]
+        public async Task<ActionResult<IEnumerable<Options>>> GetAllOptionsWithQuestions()
         {
-            return await _context.Options.ToListAsync();
+            var result = await _context.Options.Include(x => x.Questions).Include(x => x.FormFields).ToListAsync();
+            return result;
         }
 
         // GET: api/Questions/5
@@ -93,7 +104,7 @@ namespace AuthenticationApp.Controllers
         // POST: api/Questions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Questions>> CreateQuestion(QuestionsDto[] questions)
+        public async Task<ActionResult<Questions>> CreateQuestion(OptionsDto[] questions)
         {           
             Questions questions1 = new Questions();
             bool isRowSaved = false;
@@ -102,15 +113,15 @@ namespace AuthenticationApp.Controllers
                 Options options1 = new Options();
                 if (!isRowSaved)
                 {
-                    questions1.Description = q.Question;
-                    questions1.FormFieldId = q.QuestionType;
+                    questions1.Description = q.Description;
+                    questions1.FormFieldId = q.FormFieldId;
                     _context.Questions.Add(questions1);
                     await _context.SaveChangesAsync();
                     isRowSaved = true;
                 }
                 options1.OptionText = q.OptionText;
                 options1.IsCorrect = q.IsCorrect;
-                options1.FormFieldId = q.QuestionType;
+                options1.FormFieldId = q.FormFieldId;
                 options1.QuestionId = questions1.QuestionId;
 
                 _context.Options.Add(options1);

@@ -51,7 +51,7 @@ import { QuestionsService } from './shared/services/questions.service';
     //TooltipModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-       { path: '', component: LoginFormComponent, pathMatch: 'full' },
+       { path: '', component: QuestionComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },

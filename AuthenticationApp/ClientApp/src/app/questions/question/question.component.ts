@@ -45,6 +45,7 @@ onSubmit(question: any)
    }, (error) => {
      console.log(error);
    });
+   this.service.getAllOptions();
 }
 
 
@@ -53,7 +54,7 @@ onSubmit(question: any)
       debugger
       this.isOneOptionAdded++;
       this.fieldArray.push(this.newField)
-      this.newField = {optionText:'', question:this.newField.question, questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect};
+      this.newField = {optionText:'', description:this.newField.description, questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.formFieldId};
     }
 
     deleteFieldValue(index)

@@ -5,12 +5,12 @@
 
       <label>Question Description</label>
       <div>
-        <textarea class="form-control" [(ngModel)]="newField.question" id="question" name="question" rows="5" cols="70"></textarea>
+        <textarea class="form-control" [(ngModel)]="newField.description" id="description" name="description" rows="5" cols="70"></textarea>
       </div>
       <div>
         <label>Question Type</label>
-      <select  class="list form-control" id="questionType" name="questionType" (change)="onSelect($event.target.value)">
-        <option value="0" selected>Select Question Type ---</option>
+      <select  class="list form-control" id="questionType" [(ngModel)]="newField.questionType" name="questionType" (change)="onSelect($event.target.value)">
+        <option value="0" [selected]>Select Question Type ---</option>
         <option *ngFor="let field of service.formFieldsList" [value]="field.formFieldId">
           {{field.name}}
         </option>
@@ -71,7 +71,7 @@
     </table>
 
     <div style="float: right;" *ngIf="this.isOneOptionAdded && this.formFieldId != 1">
-      <button type="submit" class="btn btn-primary" (click)="addFieldValue();onSubmit(fieldArray);" >Save</button>
+      <button type="submit" class="btn btn-primary" (click)="onSubmit(fieldArray);" >Save</button>
    </div>
     </div>
 
@@ -102,44 +102,47 @@
     </div> -->
   </div>
   <br>
-  <table class="table table-striped">
+  <table class="table table-striped table-bordered">
  <tr>
    <th>Questions</th>
    <th>Answers/Options</th>
    <th>Actions</th>
  </tr>
-<tr *ngFor="let question of this.service.questionsList;">
+<tr *ngFor="let question of this.service.questionsList; let i=index;">
   <td>{{question.description}}</td>
-  <td *ngFor="let option of this.service.optionsList;">
-    <div  *ngIf="option.formFieldId == 3">
+  <td >
+    <div  *ngIf="question.formFieldId == 1">
       <div>
-        <textarea class="form-control" [(ngModel)]="newField.question" id="question" name="question" rows="5" cols="70"></textarea>
+        <textarea class="form-control" placeholder="{{question.description}}" [(ngModel)]="newField.questionAns" id="questionAns" name="questionAns" rows="5" cols="70"></textarea>
       </div>
     </div>
-    <div  *ngIf="option.formFieldId == 2">
+    <div  *ngIf="question.formFieldId == 2">
       <div>
-        <select  class="list form-control" id="questionType" name="questionType" (change)="onSelect($event.target.value)">
+        <select  class="list form-control" id="questionType1"  name="questionType1" >
           <option value="0" selected>Select Answer ---</option>
-          <option *ngFor="let option of service.optionsList" [value]="option.optionId">
+          <option *ngFor="let option of question.option" [value]="option.optionId">
             {{option.optionText}}
           </option>
         </select>
       </div>
     </div>
 
-    <div  *ngIf="option.formFieldId == 3">
-      <div>
-        <input type="checkbox" *ngFor="let option of service.optionsList" value="{{option.optionText}}" id="questionAnsChk" name="questionAnsChk"  /> &nbsp;
+    <div  class="row" *ngIf="question.formFieldId == 3">
+      <div *ngFor="let option of question.option; let c=index;"  >
+        <input type="checkbox"  style="margin-left: 40px;"  value="{{option.optionText}}" id="questionAnsChk" name="questionAnsChk"  />  &nbsp; {{option.optionText}} &nbsp;
       </div>
     </div>
 
-    <div  *ngIf="option.formFieldId == 4">
-      <div>
-        <input type="radio" *ngFor="let option of service.optionsList" id="questionAnsRadio" name="questionAnsRadio"  /> &nbsp;  {{option.optionText}}
+    <div  class="row"  *ngIf="question.formFieldId == 4">
+      <div *ngFor="let option of question.option; let r=index;">
+        <input type="radio" style="margin-left: 40px;"   value="radioAns+{{i}}"  id="radioAns+{{i}}" name="radioAns+{{i}}"  />  &nbsp; {{option.optionText}} &nbsp;
       </div>
     </div>
   </td>
-  <td>abc</td>
+  <td>
+      <button type="submit" class="btn btn-success"  >Save</button>
+
+  </td>
 </tr>
 
   </table>

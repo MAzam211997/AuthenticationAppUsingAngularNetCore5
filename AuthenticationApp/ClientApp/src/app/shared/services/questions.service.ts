@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Questions } from '../models/Questions.model';
+import { OptionsDto } from '../DTOs/OptionsDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class QuestionsService
 {
   readonly baseURL='https://localhost:44326/api/Questions/';
   formData:Questions=new Questions();
-  questionsList:Questions[];
-  optionsList:Options[];
+  questionsList:OptionsDto[];
+  optionsList:OptionsDto[];
   formFieldsList:FormFields[];
 
   constructor(private http:HttpClient, private router: Router)
@@ -40,7 +41,7 @@ export class QuestionsService
 
   getAllQuestions()
   {
-    this.http.get(this.baseURL).toPromise().then(result=>this.questionsList=result as Questions[]);
+    this.http.get(this.baseURL).toPromise().then(result=>this.questionsList=result as OptionsDto[]);
   }
 
   getAllFormFields()
@@ -50,6 +51,8 @@ export class QuestionsService
 
   getAllOptions()
   {
-    this.http.get(this.baseURL+'GetAllOptions').toPromise().then(result=>this.optionsList=result as Options[]);
+    this.http.get(this.baseURL+'GetAllOptionsWithQuestions').toPromise().then(result=>this.optionsList=result as OptionsDto[]);
+    //alert(this.optionsList);
+
   }
 }
