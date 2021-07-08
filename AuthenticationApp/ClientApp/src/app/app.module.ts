@@ -25,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { DocumenterModule } from './documenter/documenter.module';
 import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import { QuestionsService } from './shared/services/questions.service';
+import { AnswersService } from './shared/services/answers.service';
 //import { TooltipModule } from 'ng2-tooltip-directive/lib/tooltip.module';
 
 @NgModule({
@@ -66,13 +67,17 @@ import { QuestionsService } from './shared/services/questions.service';
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 10000,
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-right',
       preventDuplicates: true,
+      closeButton:true,
+      newestOnTop:true,
+      progressBar:true,
+      extendedTimeOut:300
     }),
     //DocumenterModule,
     DocumentEditorContainerAllModule
   ],
-  providers: [UserService,QuestionsService],
+  providers: [UserService,QuestionsService,AnswersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

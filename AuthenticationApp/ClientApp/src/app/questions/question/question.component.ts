@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { QuestionsDto } from 'src/app/shared/DTOs/QuestionsDto.model';
+import { AnswersService } from 'src/app/shared/services/answers.service';
 
 @Component({
   selector: 'app-question',
@@ -14,48 +15,64 @@ import { QuestionsDto } from 'src/app/shared/DTOs/QuestionsDto.model';
 })
 export  class QuestionComponent implements OnInit {
   form: FormGroup;
-  constructor(private toastr: ToastrService,public service: QuestionsService) { }
+  constructor(private toastr: ToastrService,public questionsService: QuestionsService,public answersService: AnswersService) { }
   dynamicArray: Array<Options> = [];
   newDynamic: any = {};
- formFieldId:any;
+  formFieldId:any;
   isOneOptionAdded:number=0;
   fieldArray: Array<QuestionsDto> = [];
-     newField: any = {};
+  answersArray: Array<any> = [];
+  newField: any = {};
+  submittedAnswers: any = {};
 
   ngOnInit()
   {
-    this.service.getAllFormFields();
-    this.service.getAllQuestions();
-    this.service.getAllOptions();
+
+    this.questionsService.getAllFormFields();
+    this.questionsService.getAllQuestions();
+    this.questionsService.getAllOptions();
     this.dynamicArray.push(this.newDynamic);
-    // this.form = new FormGroup
-    //   ({
-    //     question: new FormControl('',[Validators.required]),
-    //     questionType: new FormControl('', [Validators.required]),
-    //     correctAnswer: new FormControl('',[Validators.required]),
-    //   });
+    this.form = new FormGroup
+      ({
+        questionAns: new FormControl('', [Validators.required]),
+      });
   }
 
+  onSubmitAnswers(submittedAnswers)
+  {
+    debugger
+    this.answersArray.push(this.submittedAnswers);
+    this.submittedAnswers= {questionId:this.submittedAnswers.questionId, questionAns:this.form.value};
+    //alert(submittedAnswers.questionId+ " "+" " +submittedAnswers.questionAns + " "+" " + submittedAnswers.questionAnsChk  + " "+" " + submittedAnswers.radioAns);
+
+    debugger
+  this.answersService.saveAnswers(submittedAnswers).subscribe((creationStatus) => {
+    this.toastr.success('Questions with provided option(s) has been submitted successfully.', 'Answers Submitted !');
+   },
+   (error) =>
+   {
+     console.log(error);
+   });
+  }
 onSubmit(question: any)
 {
   if(this.formFieldId ==1)
   {
-    //alert(this.formFieldId);
     this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
     this.fieldArray.push(this.newField);
   }
-  if(this.formFieldId != 1 && this.formFieldId != 0)
+  if(this.formFieldId > 1 && this.formFieldId != 0 )
     {
       this.isOneOptionAdded=1;
     }else {
       this.isOneOptionAdded=0;
     }
   debugger
-  this.service.addQuestion(question).subscribe((creationStatus) => {
+  this.questionsService.addQuestion(question).subscribe((creationStatus) => {
     this.toastr.success('Question with provided option(s) has been created successfully.', 'Question Created !');
-    //this.service.getAllFormFields();
-    this.service.getAllQuestions();
-    this.service.getAllOptions();
+    //this.questionsService.getAllFormFields();
+    this.questionsService.getAllQuestions();
+    this.questionsService.getAllOptions();
     //this.newField = {optionText:'', description:'',  questionType:'', IsCorrect:''};
    }, (error) => {
      console.log(error);
@@ -65,45 +82,40 @@ onSubmit(question: any)
 
     addFieldValue()
     {
-      //debugger
+
       this.isOneOptionAdded++;
-      // if(this.fieldArray.length == 1)
-      // {
-        this.newField.formFieldId=this.formFieldId;
-        this.fieldArray.push(this.newField);
+      this.newField.formFieldId=this.formFieldId;
+      this.fieldArray.push(this.newField);
       this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
-
-      // }
-      // else{
-
-      // this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
-      // this.fieldArray.push(this.newField);
-      // }
-      if(this.formFieldId != 1 && this.formFieldId != 0)
-    {
-      this.isOneOptionAdded=1;
-    }else {
-      this.isOneOptionAdded=0;
-    }
+      if(this.formFieldId > 1 && this.formFieldId != 0 )
+      {
+        this.isOneOptionAdded=1;
+      }
+      else
+      {
+        this.isOneOptionAdded=0;
+      }
     }
 
     deleteFieldValue(index)
     {
       this.isOneOptionAdded--;
-        this.fieldArray.splice(index, 1);
+      this.fieldArray.splice(index, 1);
     }
 
 
   onSelect(formfieldid)
   {
-    //this.newField.formFieldId =this.formFieldId;// { formFieldId:this.formFieldId};
+    this.fieldArray = [];
     this.formFieldId=formfieldid;
-    if(this.formFieldId != 1 && this.formFieldId != 0)
-    {
-      this.isOneOptionAdded=1;
-    }else {
-      this.isOneOptionAdded=0;
-    }
+    if(this.formFieldId > 1 && this.isOneOptionAdded != 0 )
+      {
+        this.isOneOptionAdded=1;
+      }
+      else
+      {
+        this.isOneOptionAdded=0;
+      }
   }
   addRow()
   {

@@ -34,6 +34,7 @@ namespace AuthenticationApp.Controllers
                                  Description=q.Description,
                                  FormFieldId= q.FormFieldId,
                                  Questions = _context.Questions.ToList(),
+                                 QuestionId=q.QuestionId
                             });
             return options.ToList();
         }

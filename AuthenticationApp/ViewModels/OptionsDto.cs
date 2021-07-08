@@ -12,6 +12,7 @@ namespace AuthenticationApp.ViewModels
         public String OptionText { get; set; }
         public bool IsCorrect { get; set; }
         public int FormFieldId{ get; set; }
+        public int QuestionId { get; set; }
         public List<Options> Option { get; set; }
         public List<Questions> Questions{ get; set; }
     }

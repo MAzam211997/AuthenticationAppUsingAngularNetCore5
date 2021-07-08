@@ -6,8 +6,13 @@ export class OptionsDto {
   optionText: string="";
   isCorrect: boolean=false;
   formFieldId: number=0;
+  questionId: number=0;
   question:Questions;
   options: Options;
   option: Options[] = [];
   questions: Questions[] = [];
+  questionAns: any="";
+  ddlAns: any="";
+  radioAns:any="";
+  questionAnsChk: any="";
 }
