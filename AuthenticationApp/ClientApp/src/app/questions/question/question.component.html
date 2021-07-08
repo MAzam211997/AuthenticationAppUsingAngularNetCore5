@@ -2,7 +2,7 @@
 
   <div class="row">
     <div class="col-md-6">
-   <input type="hidden"  [(ngModel)]="newField.formFieldId" id="formFieldId" name="formFieldId">
+
       <label>Question Description</label>
       <div>
         <textarea class="form-control" [(ngModel)]="newField.description" id="description" name="description" rows="5" cols="70"></textarea>
@@ -40,6 +40,7 @@
             <tr *ngFor="let field of fieldArray; let i = index">
                 <td>
                   {{field.optionText}}
+                  <input type="hidden" [value]="field.questionType" [(ngModel)]="newField.formFieldId" id="formFieldId" name="formFieldId">
                 </td>
                 <td>
                   <span *ngIf="field.IsCorrect">
@@ -62,7 +63,7 @@
                   <input type="checkbox" id="IsCorrect" name="IsCorrect" [(ngModel)]="newField.IsCorrect" />
                 </td>
                 <td>
-                    <i class="fa fa-plus fa-1x text-success" (click)="addFieldValue()"></i>
+                    <i class="fa fa-plus-circle fa-1x text-success" (click)="addFieldValue()"></i>
                 </td>
             </tr>
         </tbody>
@@ -109,7 +110,6 @@
 <tr *ngFor="let question of this.service.questionsList; let i=index;">
   <td>{{question.description}}</td>
   <td >
-    <!-- {{question.formFieldId | json}} -->
     <div  *ngIf="question.formFieldId == 1">
 
       <div>

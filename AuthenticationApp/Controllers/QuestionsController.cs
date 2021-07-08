@@ -28,17 +28,14 @@ namespace AuthenticationApp.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<OptionsDto>> GetQuestions()
         {
-            var options = (from option in _context.Options.Include(x => x.FormFields).ToList()
-                           join q in _context.Questions.Include(x=>x.FormFields).ToList() on option.QuestionId equals q.QuestionId
-                           select new OptionsDto()
+            var options = (from q in _context.Questions.Include(x => x.FormFields).ToList() select new OptionsDto()
                             {
                                  Option = _context.Options.Where(x=>x.QuestionId == q.QuestionId).ToList(),
-                                 IsCorrect=option.IsCorrect,
-                                 Description=q.Description, // option.Questions.Description,
+                                 Description=q.Description,
                                  FormFieldId= q.FormFieldId,
-                                 Questions= _context.Questions.ToList(),
+                                 Questions = _context.Questions.ToList(),
                             });
-            return options.ToList();// _context.Options.Include(x => x.Questions).Include(x => x.FormFields).ToList();
+            return options.ToList();
         }
 
         // GET: api/GetAllFormFields

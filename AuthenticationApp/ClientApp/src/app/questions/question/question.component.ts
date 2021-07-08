@@ -12,12 +12,12 @@ import { QuestionsDto } from 'src/app/shared/DTOs/QuestionsDto.model';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css']
 })
-export class QuestionComponent implements OnInit {
+export  class QuestionComponent implements OnInit {
   form: FormGroup;
   constructor(private toastr: ToastrService,public service: QuestionsService) { }
   dynamicArray: Array<Options> = [];
   newDynamic: any = {};
-  formFieldId:any;
+ formFieldId:any;
   isOneOptionAdded:number=0;
   fieldArray: Array<QuestionsDto> = [];
      newField: any = {};
@@ -38,8 +38,12 @@ export class QuestionComponent implements OnInit {
 
 onSubmit(question: any)
 {
-  this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.formFieldId};
-  this.fieldArray.push(this.newField);
+  if(this.formFieldId ==1)
+  {
+    //alert(this.formFieldId);
+    this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
+    this.fieldArray.push(this.newField);
+  }
   if(this.formFieldId != 1 && this.formFieldId != 0)
     {
       this.isOneOptionAdded=1;
@@ -52,7 +56,7 @@ onSubmit(question: any)
     //this.service.getAllFormFields();
     this.service.getAllQuestions();
     this.service.getAllOptions();
-    this.newField = {optionText:'', description:'',  questionType:'', IsCorrect:'', formFieldId:''};
+    //this.newField = {optionText:'', description:'',  questionType:'', IsCorrect:''};
    }, (error) => {
      console.log(error);
    });
@@ -61,12 +65,14 @@ onSubmit(question: any)
 
     addFieldValue()
     {
-      debugger
+      //debugger
       this.isOneOptionAdded++;
       // if(this.fieldArray.length == 1)
       // {
+        this.newField.formFieldId=this.formFieldId;
         this.fieldArray.push(this.newField);
       this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
+
       // }
       // else{
 
@@ -90,6 +96,7 @@ onSubmit(question: any)
 
   onSelect(formfieldid)
   {
+    //this.newField.formFieldId =this.formFieldId;// { formFieldId:this.formFieldId};
     this.formFieldId=formfieldid;
     if(this.formFieldId != 1 && this.formFieldId != 0)
     {
