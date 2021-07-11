@@ -6,15 +6,16 @@ using AuthenticationApp.Models;
 
 namespace AuthenticationApp.ViewModels
 {
-    public class AnswersDto
+    public class ResultDto
     {
         public String QuestionAns { get; set; }
-        public String OptionText { get; set; }
-        public bool IsCorrect { get; set; }
-        public int FormFieldId{ get; set; }
+        public String QuestionType { get; set; }
+        public String CorrectAnswer { get; set; }
+        public String SubmittedAnswer { get; set; }
+        public int FormFieldId { get; set; }
         public int QuestionId { get; set; }
         public int OptionId { get; set; }
         public List<Options> Option { get; set; }
-        public List<Questions> Questions{ get; set; }
+        public List<Questions> Questions { get; set; }
     }
 }

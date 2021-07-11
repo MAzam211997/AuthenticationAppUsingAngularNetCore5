@@ -1,3 +1,6 @@
+import { ExportToWordComponent } from './exporter/export-to-word/export-to-word.component';
+import { ExportToPDFComponent } from './exporter/export-to-pdf/export-to-pdf.component';
+import { ShowAnswersComponent } from './answers/show-answers/show-answers.component';
 import { FormfieldsComponent } from './questions/formfields/formfields.component';
 import { OptionsComponent } from './questions/options/options.component';
 import { QuestionComponent } from './questions/question/question.component';
@@ -42,7 +45,10 @@ import { AnswersService } from './shared/services/answers.service';
     DocumentComponent,
     QuestionComponent,
     OptionsComponent,
-    FormfieldsComponent
+    FormfieldsComponent,
+    ShowAnswersComponent,
+    ExportToPDFComponent,
+    ExportToWordComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,7 +58,7 @@ import { AnswersService } from './shared/services/answers.service';
     //TooltipModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-       { path: '', component: QuestionComponent, pathMatch: 'full' },
+       { path: '', component: ShowAnswersComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },
@@ -61,6 +67,9 @@ import { AnswersService } from './shared/services/answers.service';
       { path: 'edit-user', component: EditUserComponent },
       { path: 'document', component: DocumentComponent },
       { path: 'question', component: QuestionComponent },
+      { path: 'export-to-pdf', component: ExportToPDFComponent },
+      { path: 'export-to-word', component: ExportToWordComponent },
+      { path: 'show-answers', component: ShowAnswersComponent },
 
 
     ]),

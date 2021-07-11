@@ -1,0 +1,40 @@
+<form autocomplete="off" #questionsForm="ngForm">
+
+  <div class="row" style="margin-top: 50px;;">
+
+    <div   class="col-md-12" >
+      <label>Result of Submitted Questions and Answers </label>
+      <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Submitted Answer</th>
+                <th>Correct Answer</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let field of this.answersService.answersList; let i = index">
+                <td>
+                  {{field.description}}
+                </td>
+                <td>
+                  {{field.questionAns}}
+                </td>
+                <td>
+                  <span *ngIf="field.isCorrect">
+                    Yes
+                  </span>
+                  <span *ngIf="!field.isCorrect">
+                    No
+                  </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+  </div>
+</form>
+
+
+

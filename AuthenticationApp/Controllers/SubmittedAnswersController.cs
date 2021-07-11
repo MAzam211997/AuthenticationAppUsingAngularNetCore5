@@ -23,10 +23,28 @@ namespace AuthenticationApp.Controllers
         }
 
         // GET: api/SubmittedAnswers
-        [HttpGet]
+        [HttpGet("GetSubmittedAnswers")]
         public async Task<ActionResult<IEnumerable<SubmittedAnswers>>> GetSubmittedAnswers()
         {
             return await _context.SubmittedAnswers.ToListAsync();
+        }
+
+
+        // GET: api/SubmittedAnswers
+        [HttpGet]
+        public ActionResult<IEnumerable<ResultDto>> GetQuestionAnswers()
+        {
+            var options = (from q in _context.Questions.Include(x => x.FormFields).ToList()
+                           select new ResultDto()
+                           {
+                               Option = _context.Options.Where(x => x.QuestionId == q.QuestionId).ToList(),
+                               QuestionAns = q.Description,
+                               QuestionType = _context.Questions.Where(x => x.FormFieldId == q.FormFields.FormFieldId).Select(x=>x.FormFields.Name).FirstOrDefault(),
+                               FormFieldId = q.FormFieldId,
+                               Questions = _context.Questions.ToList(),
+                               QuestionId = q.QuestionId,
+                           }).OrderBy(x => x.FormFieldId);
+            return options.ToList();
         }
 
         // GET: api/SubmittedAnswers/5
@@ -76,7 +94,7 @@ namespace AuthenticationApp.Controllers
 
         // POST: api/SubmittedAnswers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("PostSubmittedAnswers")]
         public async Task<ActionResult<SubmittedAnswers>> PostSubmittedAnswers(AnswersDto[] submittedAnswers)
         {
             if (submittedAnswers.Length > 0)

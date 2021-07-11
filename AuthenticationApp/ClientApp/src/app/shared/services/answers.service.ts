@@ -5,15 +5,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Questions } from '../models/Questions.model';
 import { OptionsDto } from '../DTOs/OptionsDto.model';
+import { ResultDto } from '../DTOs/ResultDto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnswersService
 {
+
   readonly baseURL='https://localhost:44326/api/SubmittedAnswers/';
   formData:Questions=new Questions();
-  answersList:OptionsDto[];
+  answersList:ResultDto[];
   optionsList:OptionsDto[];
   formFieldsList:FormFields[];
 
@@ -40,5 +42,8 @@ export class AnswersService
   getAllAnswers()
   {
     this.http.get(this.baseURL).toPromise().then(result=>this.answersList=result as OptionsDto[]);
+  }
+  getAllAnswersWithQuestions() {
+    this.http.get(this.baseURL+'GetQuestionAnswers').toPromise().then(result=>this.answersList=result as ResultDto[]);
   }
 }

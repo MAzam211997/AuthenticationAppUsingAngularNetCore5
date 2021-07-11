@@ -1,6 +1,6 @@
 import { Questions } from '../models/Questions.model';
-import { Options } from './../models/Options.model';
-export class OptionsDto {
+import { Options } from '../models/Options.model';
+export class ResultDto {
   optionId: number=0;
   description: string="";
   optionText: string="";
