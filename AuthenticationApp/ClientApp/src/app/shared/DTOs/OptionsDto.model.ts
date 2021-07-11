@@ -14,5 +14,6 @@ export class OptionsDto {
   questionAns: any="";
   ddlAns: any="";
   radioAns:any="";
+  isChecked: boolean=false;
   questionAnsChk: any="";
 }

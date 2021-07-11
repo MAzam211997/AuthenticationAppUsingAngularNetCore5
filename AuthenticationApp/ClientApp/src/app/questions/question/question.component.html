@@ -134,18 +134,18 @@
 
     <div  class="row" *ngIf="question.formFieldId == 3">
       <div *ngFor="let option of question.option; let c=index;"  >
-        <input type="checkbox"  style="margin-left: 40px;" id="questionAnsChk{{row}}" name="questionAnsChk{{row}}"  />  &nbsp; {{option.optionText}} &nbsp;
+        <input type="checkbox"  style="margin-left: 40px;"  (change)="onChangeCategory($event, option)" name="questionAnsChk{{option.optionId + option.optionText}}" id="questionAnsChk{{option.optionId + option.optionText}}"  />  &nbsp; {{option.optionText}} &nbsp;
       </div>
     </div>
 
     <div  class="row"  *ngIf="question.formFieldId == 4">
       <div *ngFor="let option of question.option; let r=index;">
-        <input type="radio" style="margin-left: 40px;"  id="radioAns{{row}}" name="radioAns{{row}}"  />  &nbsp; {{option.optionText}} &nbsp;
+        <input type="radio" style="margin-left: 40px;" [(ngModel)]="question.questionAns" id="radioAns" name="radioAns" value="{{option.optionId}}"  />  &nbsp; {{option.optionText}} &nbsp;
       </div>
     </div>
   </td>
   <td>
-      <button type="submit" class="btn btn-success" id="{{row}}" (click)="onSubmitAnswers(question,row)" name="{{row}}" >Save</button>
+      <button type="submit" class="btn btn-success"  (click)="onSubmitAnswers(question)" >Save</button>
 
   </td>
 </tr>

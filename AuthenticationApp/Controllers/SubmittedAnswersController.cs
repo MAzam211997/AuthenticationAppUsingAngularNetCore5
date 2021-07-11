@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AuthenticationApp.Data;
 using AuthenticationApp.Models;
+using AuthenticationApp.ViewModels;
 
 namespace AuthenticationApp.Controllers
 {
@@ -76,12 +77,50 @@ namespace AuthenticationApp.Controllers
         // POST: api/SubmittedAnswers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<SubmittedAnswers>> PostSubmittedAnswers(SubmittedAnswers submittedAnswers)
+        public async Task<ActionResult<SubmittedAnswers>> PostSubmittedAnswers(AnswersDto[] submittedAnswers)
         {
-            _context.SubmittedAnswers.Add(submittedAnswers);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSubmittedAnswers", new { id = submittedAnswers.SubmittedAnswersId }, submittedAnswers);
+            if (submittedAnswers.Length > 0)
+            {
+                foreach (var answer in submittedAnswers)
+                {
+                    bool optionChecker = false;
+                    SubmittedAnswers answers = new SubmittedAnswers();
+                    if (answer.FormFieldId > 1)
+                    {
+                        if (answer.FormFieldId == 2 || answer.FormFieldId == 4)
+                        {
+                            var optionId = answer.QuestionAns; ;
+                            answers.OptionId =Convert.ToInt32(optionId);// _context.Options.Where(x=>x.OptionId == Convert.ToInt32( answer.QuestionAns));
+                            answers.QuestionId = answer.QuestionId;
+                            answers.FormFieldId = answer.FormFieldId;
+                            answers.AnswerText = answer.OptionText;
+                        }
+                        else if (answer.FormFieldId == 3 && answer.OptionText != null)
+                        {
+                            optionChecker = true;
+                            //answers.OptionId = _context.Options.Where(x=>x.OptionId == Convert.ToInt32( answer.QuestionAns));
+                            answers.QuestionId = answer.QuestionId;
+                            answers.IsCorrect = answer.IsCorrect;
+                            answers.FormFieldId = answer.FormFieldId;
+                            answers.AnswerText = answer.OptionText;
+                            answers.OptionId = answer.OptionId;
+                        }
+                    }
+                    else
+                    {
+                        optionChecker = true;
+                        answers.AnswerText = answer.QuestionAns;
+                        answers.QuestionId = answer.QuestionId;
+                        answers.FormFieldId = answer.FormFieldId;
+                    }
+                    if (optionChecker == true)
+                    {
+                        _context.SubmittedAnswers.Add(answers);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            return Ok();
         }
 
         // DELETE: api/SubmittedAnswers/5

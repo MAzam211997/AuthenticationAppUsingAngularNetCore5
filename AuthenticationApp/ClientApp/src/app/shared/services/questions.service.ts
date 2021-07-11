@@ -21,11 +21,8 @@ export class QuestionsService
   {
 
   }
-
   addQuestion(question:any)
   {
-    //,options:Options
-    //debugger
    return this.http.post(this.baseURL, question);
   }
 
@@ -52,7 +49,5 @@ export class QuestionsService
   getAllOptions()
   {
     this.http.get(this.baseURL+'GetAllOptionsWithQuestions').toPromise().then(result=>this.optionsList=result as OptionsDto[]);
-    //alert(this.optionsList);
-
   }
 }

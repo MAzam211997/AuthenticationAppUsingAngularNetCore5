@@ -40,20 +40,24 @@ export  class QuestionComponent implements OnInit {
 
   onSubmitAnswers(submittedAnswers)
   {
-    debugger
-    this.answersArray.push(this.submittedAnswers);
+    this.answersArray.push(submittedAnswers);
     this.submittedAnswers= {questionId:this.submittedAnswers.questionId, questionAns:this.form.value};
-    //alert(submittedAnswers.questionId+ " "+" " +submittedAnswers.questionAns + " "+" " + submittedAnswers.questionAnsChk  + " "+" " + submittedAnswers.radioAns);
-
     debugger
-  this.answersService.saveAnswers(submittedAnswers).subscribe((creationStatus) => {
-    this.toastr.success('Questions with provided option(s) has been submitted successfully.', 'Answers Submitted !');
+    this.answersService.saveAnswers(this.answersArray).subscribe((creationStatus) => {
+    this.toastr.success('Answer(s) has been submitted successfully.', 'Answers Submitted !');
    },
    (error) =>
    {
      console.log(error);
    });
   }
+  tempArr: any = { "brands": [] };
+
+    onChangeCategory(event, options: any){ // Use appropriate model type instead of any
+     debugger
+      //this.tempArr.brands.push(options.optionName);
+      this.answersArray.push(options);
+    }
 onSubmit(question: any)
 {
   if(this.formFieldId ==1)
