@@ -3,6 +3,9 @@ using AuthenticationApp.Data;
 using AuthenticationApp.Models;
 using AuthenticationApp.ViewModels;
 using AutoMapper;
+using jsreport.AspNetCore;
+using jsreport.Binary;
+using jsreport.Local;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +33,18 @@ namespace AuthenticationApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueLengthLimit = 1024 * 1024 * 100; // 100MB max len form data
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                //options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -46,6 +61,7 @@ namespace AuthenticationApp
                 option.MemoryBufferThreshold = int.MaxValue;
             });
             services.AddAutoMapper(typeof(Startup));
+            services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
             //Mapper.CreateMap<QuestionsDto, Questions>();
 
 
