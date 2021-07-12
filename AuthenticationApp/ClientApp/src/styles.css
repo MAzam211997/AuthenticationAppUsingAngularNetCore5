@@ -8,6 +8,18 @@ a {
 code {
   color: #e01a76;
 }
+.ng-invalid.ng-touched{
+  border-color: red;
+  }
+  .error-block
+  {
+  color: red;
+  }
+  .upload{
+    font-weight: bold;
+    color: greenyellow;
+    line-height: 30px;;
+  }
 
 .btn-primary {
   color: #fff;

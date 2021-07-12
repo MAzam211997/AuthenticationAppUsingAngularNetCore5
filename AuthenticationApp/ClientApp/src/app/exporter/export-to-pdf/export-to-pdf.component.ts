@@ -25,7 +25,7 @@ export class ExportToPDFComponent implements OnInit {
     this.exporterForm = new FormGroup
       ({
         name: new FormControl('',[Validators.required]),
-        email: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required, Validators.email]),
         address: new FormControl('',[Validators.required]),
       });
   }
@@ -63,6 +63,7 @@ export class ExportToPDFComponent implements OnInit {
       downloadLink.click();
     }
     document.body.removeChild(downloadLink);
+    this.toastr.success('File has been downloaded as word successfully.', 'Download Successful !');
   }
 
   // generatePDF() {
@@ -100,7 +101,7 @@ export class ExportToPDFComponent implements OnInit {
     {
       debugger
       this.exporter.downloadToWord(data).subscribe((creationStatus) => {
-        this.toastr.success('File has been downloaded as word successfully.', 'Download Successful !');
+
        }, (error) => {
          console.log(error);
        });

@@ -13,12 +13,12 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="Name">Name</label>
-                <input id="name" type="text"  formControlName="name" value="test" class="form-control" placeholder="Name" >
+                <input id="name" type="text"  formControlName="name" class="form-control" placeholder="Name" >
                 <span *ngIf="!name.valid && name.touched"  class="error-block">Name is Required.</span>
               </div>
               <div class="form-group col-md-6">
                   <label for="email">Email</label>
-                  <input id="email" type="text" value="test@gmail.com" formControlName="email" validateEmail class="form-control" placeholder="Email"   >
+                  <input id="email" type="text" formControlName="email" validateEmail class="form-control" placeholder="Email"   >
                   <span *ngIf="!email.valid && email.touched" >
                     <span class="error-block" *ngIf="email.hasError('required')">
                     Email is Required.
@@ -32,7 +32,7 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="address">Address</label>
-                <input id="address" value="test" type="text" formControlName="address" class="form-control" placeholder="Address" >
+                <input id="address" type="text" formControlName="address" class="form-control" placeholder="Address" >
                 <span *ngIf="!address.valid && address.touched" class="error-block">
                   <span class="error-block" *ngIf="address.errors['required']">
                     Address is Required..
