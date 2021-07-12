@@ -1,8 +1,6 @@
 <form autocomplete="off" #questionsForm="ngForm">
-
   <div class="row">
     <div class="col-md-6">
-
       <label>Question Description</label>
       <div>
         <textarea class="form-control" [(ngModel)]="newField.description" id="description" name="description" rows="5" cols="70"></textarea>
@@ -59,7 +57,6 @@
                 <td>
                     <input class="form-control" id="optionText" type="text" [(ngModel)]="newField.optionText" name="optionText" />
                 </td>
-
                 <td>
                   <input type="checkbox" id="IsCorrect" name="IsCorrect" [(ngModel)]="newField.IsCorrect" />
                 </td>
@@ -70,11 +67,11 @@
         </tbody>
     </table>
 
+    <!-- <div style="float: right;" *ngIf="this.isOneOptionAdded && this.formFieldId != 1"> -->
     <div style="float: right;" *ngIf="this.isOneOptionAdded == 1 && this.formFieldId > 1">
       <button type="submit" class="btn btn-primary" (click)="onSubmit(fieldArray);" >Save</button>
    </div>
-    </div>
-
+    <!-- </div> -->
     <!-- <div class="col-md-6">
       <h2>Movies</h2>
       <div
@@ -87,7 +84,6 @@
       <div class="movie-block" *ngFor="let moviesList of MoviesList" cdkDrag>{{moviesList}}</div>
     </div>
     </div>
-
     <div class="col-md-6">
       <h2>Movies Watched</h2>
       <div
@@ -102,12 +98,14 @@
     </div> -->
   </div>
   <br>
+
   <table class="table table-striped table-bordered">
  <tr>
    <th>Questions</th>
    <th>Answers/Options</th>
    <th>Actions</th>
  </tr>
+<!-- <tr *ngFor="let question of this.service.questionsList; let i=index;"> -->
 <tr *ngFor="let question of this.questionsService.questionsList; let row=index;">
   <input type="hidden" [value]="question.questionId"  id="questionId" name="questionId">
   <td>{{question.description}}</td>
@@ -118,11 +116,13 @@
     <div  *ngIf="question.formFieldId == 1">
 
       <div>
+        <!-- <textarea class="form-control" placeholder="{{question.description}}" [(ngModel)]="newField.questionAns" id="questionAns" name="questionAns" rows="5" cols="70"></textarea> -->
         <textarea  class="form-control" [(ngModel)]="question.questionAns" id="questionAns" name="questionAns" placeholder="{{question.description}}" rows="5" cols="70"></textarea>
       </div>
     </div>
     <div  *ngIf="question.formFieldId == 2">
       <div>
+        <!-- <select  class="list form-control" id="questionType1"  name="questionType1" > -->
         <select  class="list form-control" id="questionType1" [(ngModel)]="question.questionAns"  name="questionType1" >
           <option value="0" selected>Select Answer ---</option>
           <option *ngFor="let option of question.option" [value]="option.optionId">
@@ -134,36 +134,24 @@
 
     <div  class="row" *ngIf="question.formFieldId == 3">
       <div *ngFor="let option of question.option; let c=index;"  >
-        <input type="checkbox"  style="margin-left: 40px;"  (change)="onChangeCategory($event, option)" name="questionAnsChk{{option.optionId + option.optionText}}" id="questionAnsChk{{option.optionId + option.optionText}}"  />  &nbsp; {{option.optionText}} &nbsp;
+        <input type="checkbox"  style="margin-left: 40px;"  value="{{option.optionText}}" id="questionAnsChk" name="questionAnsChk"  />  &nbsp; {{option.optionText}} &nbsp;
+        <!-- <input type="checkbox"  style="margin-left: 40px;" id="questionAnsChk{{row}}" name="questionAnsChk{{row}}"  />  &nbsp; {{option.optionText}} &nbsp; -->
       </div>
     </div>
 
     <div  class="row"  *ngIf="question.formFieldId == 4">
       <div *ngFor="let option of question.option; let r=index;">
-        <input type="radio" style="margin-left: 40px;" [(ngModel)]="question.questionAns" id="radioAns" name="radioAns" value="{{option.optionId}}"  />  &nbsp; {{option.optionText}} &nbsp;
+        <!-- <input type="radio" style="margin-left: 40px;"   value="radioAns+{{i}}"  id="radioAns+{{i}}" name="radioAns+{{i}}"  />  &nbsp; {{option.optionText}} &nbsp; -->
+        <input type="radio" style="margin-left: 40px;"  id="radioAns{{row}}" name="radioAns{{row}}"  />  &nbsp; {{option.optionText}} &nbsp;
       </div>
     </div>
   </td>
   <td>
-      <button type="submit" class="btn btn-success"  (click)="onSubmitAnswers(question)" >Save</button>
+      <!-- <button type="submit" class="btn btn-success"  >Save</button> -->
+      <button type="submit" class="btn btn-success" id="{{row}}" (click)="onSubmitAnswers(question)" name="{{row}}" >Save</button>
 
   </td>
 </tr>
-
   </table>
+  </div>
 </form>
-
-
-
-
-<!-- <div class="row" *ngIf="this.formFieldId > 1">
-  <div class="col-md-5">
-    <input placeholder="Option Text" type="text" class="form-control" style="width: 480px;" />
-  </div>
-  <div >
-    <button style="margin-left: 40px;;" class="btn btn-success" type="button"><b>+</b></button>
-  </div>
-</div> -->
-
-
-

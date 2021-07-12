@@ -91,48 +91,6 @@ namespace AuthenticationApp.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("AuthenticationApp.Models.SubmittedAnswers", b =>
-                {
-                    b.Property<int>("SubmittedAnswersId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AnswerText")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FormFieldId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FormFieldsFormFieldId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("OptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OptionsOptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuestionsQuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SubmittedAnswersId");
-
-                    b.HasIndex("FormFieldsFormFieldId");
-
-                    b.HasIndex("OptionsOptionId");
-
-                    b.HasIndex("QuestionsQuestionId");
-
-                    b.ToTable("SubmittedAnswers");
-                });
-
             modelBuilder.Entity("AuthenticationApp.Models.Users", b =>
                 {
                     b.Property<int>("UserId")
@@ -182,27 +140,6 @@ namespace AuthenticationApp.Migrations
                         .HasForeignKey("FormFieldsFormFieldId");
 
                     b.Navigation("FormFields");
-                });
-
-            modelBuilder.Entity("AuthenticationApp.Models.SubmittedAnswers", b =>
-                {
-                    b.HasOne("AuthenticationApp.Models.FormFields", "FormFields")
-                        .WithMany()
-                        .HasForeignKey("FormFieldsFormFieldId");
-
-                    b.HasOne("AuthenticationApp.Models.Options", "Options")
-                        .WithMany()
-                        .HasForeignKey("OptionsOptionId");
-
-                    b.HasOne("AuthenticationApp.Models.Questions", "Questions")
-                        .WithMany()
-                        .HasForeignKey("QuestionsQuestionId");
-
-                    b.Navigation("FormFields");
-
-                    b.Navigation("Options");
-
-                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }

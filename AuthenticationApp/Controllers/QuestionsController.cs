@@ -34,8 +34,10 @@ namespace AuthenticationApp.Controllers
                                  Description=q.Description,
                                  FormFieldId= q.FormFieldId,
                                  Questions = _context.Questions.ToList(),
+
                                  QuestionId=q.QuestionId
                             }).OrderBy(x=>x.FormFieldId);
+                            
             return options.ToList();
         }
 

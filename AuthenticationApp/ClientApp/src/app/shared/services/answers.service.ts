@@ -15,7 +15,7 @@ export class AnswersService
 
   readonly baseURL='https://localhost:44326/api/SubmittedAnswers/';
   formData:Questions=new Questions();
-  answersList:ResultDto[];
+  answersList:OptionsDto[];
   optionsList:OptionsDto[];
   formFieldsList:FormFields[];
 
@@ -44,6 +44,6 @@ export class AnswersService
     this.http.get(this.baseURL).toPromise().then(result=>this.answersList=result as OptionsDto[]);
   }
   getAllAnswersWithQuestions() {
-    this.http.get(this.baseURL+'GetQuestionAnswers').toPromise().then(result=>this.answersList=result as ResultDto[]);
+    this.http.get(this.baseURL+'GetQuestionAnswers').toPromise().then(result=>this.answersList=result as OptionsDto[]);
   }
 }

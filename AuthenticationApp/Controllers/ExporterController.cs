@@ -6,6 +6,7 @@ using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
 using Microsoft.AspNetCore.Mvc;
 using Aspose.Pdf;
+using AuthenticationApp.ViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,27 +20,17 @@ namespace AuthenticationApp.Controllers
         [HttpGet("ExportToPDF")]
         public ActionResult<IEnumerable<string>> ExportToPDF()
         {
-            //Loads the HTML document against none schema validation
-            //using (WordDocument document = new WordDocument("HtmlSample.html", FormatType.Html, XHTMLValidationType.None))
-            //    //Saves the Word document
-            //    document.Save("Converted-From-HTML-To-Word.docx", FormatType.Docx);
-
-            // Create HTML load options
             HtmlLoadOptions htmloptions = new HtmlLoadOptions();
-            // Load HTML file
             Document doc = new Document("HtmlSample.html", htmloptions);
-            // Convert HTML file to PDF
             doc.Save("Converted-To-PDF.pdf");
             return Ok();
         }
 
         [HttpGet("ExportToWord")]
-        public ActionResult<IEnumerable<string>> ExportToWord()
+        public ActionResult<IEnumerable<string>> ExportToWord(UserDetailsDto data)
         {
-            // Loads the HTML document against none schema validation
             using (WordDocument document = new WordDocument("HtmlSample.html", FormatType.Html, XHTMLValidationType.None))
             {
-                //Saves the Word document
                 document.Save("Converted-From-HTML-To-Word.docx", FormatType.Docx);
             }
             return Ok();

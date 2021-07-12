@@ -18,33 +18,41 @@ export  class QuestionComponent implements OnInit {
   constructor(private toastr: ToastrService,public questionsService: QuestionsService,public answersService: AnswersService) { }
   dynamicArray: Array<Options> = [];
   newDynamic: any = {};
-  formFieldId:any;
+ formFieldId:any;
   isOneOptionAdded:number=0;
   fieldArray: Array<QuestionsDto> = [];
-  answersArray: Array<any> = [];
   newField: any = {};
+  answersArray: Array<any> = [];
   submittedAnswers: any = {};
 
   ngOnInit()
   {
-
     this.questionsService.getAllFormFields();
     this.questionsService.getAllQuestions();
     this.questionsService.getAllOptions();
     this.dynamicArray.push(this.newDynamic);
     this.form = new FormGroup
       ({
-        questionAns: new FormControl('', [Validators.required]),
+        question: new FormControl('',[Validators.required]),
+        questionType: new FormControl('', [Validators.required]),
+        correctAnswer: new FormControl('',[Validators.required]),
       });
+    // this.form = new FormGroup
+    //   ({
+    //     questionAns: new FormControl('', [Validators.required]),
+    //   });
   }
 
   onSubmitAnswers(submittedAnswers)
   {
-    this.answersArray.push(submittedAnswers);
-    this.submittedAnswers= {questionId:this.submittedAnswers.questionId, questionAns:this.form.value};
     debugger
-    this.answersService.saveAnswers(this.answersArray).subscribe((creationStatus) => {
-    this.toastr.success('Answer(s) has been submitted successfully.', 'Answers Submitted !');
+    this.answersArray.push(this.submittedAnswers);
+    this.submittedAnswers= {questionId:this.submittedAnswers.questionId, questionAns:this.form.value};
+    //alert(submittedAnswers.questionId+ " "+" " +submittedAnswers.questionAns + " "+" " + submittedAnswers.questionAnsChk  + " "+" " + submittedAnswers.radioAns);
+
+    debugger
+   this.answersService.saveAnswers(submittedAnswers).subscribe((creationStatus) => {
+    this.toastr.success('Questions with provided option(s) has been submitted successfully.', 'Answers Submitted !');
    },
    (error) =>
    {
@@ -62,10 +70,11 @@ onSubmit(question: any)
 {
   if(this.formFieldId ==1)
   {
+    //alert(this.formFieldId);
     this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
     this.fieldArray.push(this.newField);
   }
-  if(this.formFieldId > 1 && this.formFieldId != 0 )
+  if(this.formFieldId != 1 && this.formFieldId != 0)
     {
       this.isOneOptionAdded=1;
     }else {
@@ -74,7 +83,7 @@ onSubmit(question: any)
   debugger
   this.questionsService.addQuestion(question).subscribe((creationStatus) => {
     this.toastr.success('Question with provided option(s) has been created successfully.', 'Question Created !');
-    //this.questionsService.getAllFormFields();
+    //this.service.getAllFormFields();
     this.questionsService.getAllQuestions();
     this.questionsService.getAllOptions();
     //this.newField = {optionText:'', description:'',  questionType:'', IsCorrect:''};
@@ -86,40 +95,45 @@ onSubmit(question: any)
 
     addFieldValue()
     {
-
+      //debugger
       this.isOneOptionAdded++;
-      this.newField.formFieldId=this.formFieldId;
-      this.fieldArray.push(this.newField);
+      // if(this.fieldArray.length == 1)
+      // {
+        this.newField.formFieldId=this.formFieldId;
+        this.fieldArray.push(this.newField);
       this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
-      if(this.formFieldId > 1 && this.formFieldId != 0 )
-      {
-        this.isOneOptionAdded=1;
-      }
-      else
-      {
-        this.isOneOptionAdded=0;
-      }
+
+      // }
+      // else{
+
+      // this.newField = {optionText:'', description:this.newField.description,  questionType:this.newField.questionType, IsCorrect:this.newField.IsCorrect, formFieldId:this.newField.questionType};
+      // this.fieldArray.push(this.newField);
+      // }
+      if(this.formFieldId != 1 && this.formFieldId != 0)
+    {
+      this.isOneOptionAdded=1;
+    }else {
+      this.isOneOptionAdded=0;
+    }
     }
 
     deleteFieldValue(index)
     {
       this.isOneOptionAdded--;
-      this.fieldArray.splice(index, 1);
+        this.fieldArray.splice(index, 1);
     }
 
 
   onSelect(formfieldid)
   {
-    this.fieldArray = [];
+    //this.newField.formFieldId =this.formFieldId;// { formFieldId:this.formFieldId};
     this.formFieldId=formfieldid;
-    if(this.formFieldId > 1 && this.isOneOptionAdded != 0 )
-      {
-        this.isOneOptionAdded=1;
-      }
-      else
-      {
-        this.isOneOptionAdded=0;
-      }
+    if(this.formFieldId != 1 && this.formFieldId != 0)
+    {
+      this.isOneOptionAdded=1;
+    }else {
+      this.isOneOptionAdded=0;
+    }
   }
   addRow()
   {
