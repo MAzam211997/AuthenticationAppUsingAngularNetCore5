@@ -105,11 +105,12 @@ namespace AuthenticationApp.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Questions>> CreateQuestion(OptionsDto[] questions)
-        {           
-            Questions questions1 = new Questions();
-            bool isRowSaved = false;
-            if (questions.Length > 0)
+        {
+            try
             {
+                Questions questions1 = new Questions();
+                bool isRowSaved = false;
+
                 foreach (var q in questions)
                 {
                     Options options1 = new Options();
@@ -131,7 +132,12 @@ namespace AuthenticationApp.Controllers
                         _context.Options.Add(options1);
                         await _context.SaveChangesAsync();
                     }
+
                 }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
             return Ok();
         }

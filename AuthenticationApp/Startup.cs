@@ -1,5 +1,6 @@
 using System.IO;
 using AuthenticationApp.Data;
+using AuthenticationApp.Extensions;
 using AuthenticationApp.Models;
 using AuthenticationApp.ViewModels;
 using AutoMapper;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace AuthenticationApp
@@ -64,7 +66,7 @@ namespace AuthenticationApp
             services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
             //Mapper.CreateMap<QuestionsDto, Questions>();
 
-
+            //services.AddExceptionHandler();
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthenticationApp", Version = "v1" });
@@ -72,7 +74,7 @@ namespace AuthenticationApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) //, ILogger logger
         {
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
@@ -88,7 +90,7 @@ namespace AuthenticationApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            //app.ConfigureExceptionHandler(logger);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
