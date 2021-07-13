@@ -1,3 +1,9 @@
+import { AddProductComponent } from './products/add-product/add-product.component';
+import { ProductsModule } from './products/products.module';
+import { CategoryComponent } from './products/category/category.component';
+import { ProductComponent } from './products/product/product.component';
+import { DownloadComponent } from './exporter/download/download.component';
+import { UploadComponent } from './exporter/upload/upload.component';
 import { ExportToWordComponent } from './exporter/export-to-word/export-to-word.component';
 import { ExportToPDFComponent } from './exporter/export-to-pdf/export-to-pdf.component';
 import { ShowAnswersComponent } from './answers/show-answers/show-answers.component';
@@ -28,6 +34,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { DocumenterModule } from './documenter/documenter.module';
 import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import { QuestionsService } from './shared/services/questions.service';
+import { FileManagerComponent } from './exporter/file-manager/file-manager.component';
 //import { TooltipModule } from 'ng2-tooltip-directive/lib/tooltip.module';
 
 @NgModule({
@@ -47,7 +54,13 @@ import { QuestionsService } from './shared/services/questions.service';
     FormfieldsComponent,
     ShowAnswersComponent,
     ExportToPDFComponent,
-    ExportToWordComponent
+    ExportToWordComponent,
+    UploadComponent,
+    DownloadComponent,
+    FileManagerComponent,
+    ProductComponent,
+    CategoryComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,7 +70,7 @@ import { QuestionsService } from './shared/services/questions.service';
     //TooltipModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-       { path: '', component: ExportToPDFComponent, pathMatch: 'full' },
+       { path: '', component: AddProductComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },
@@ -73,6 +86,7 @@ import { QuestionsService } from './shared/services/questions.service';
 
     ]),
     BrowserAnimationsModule,
+
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',

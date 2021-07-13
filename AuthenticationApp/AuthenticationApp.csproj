@@ -45,6 +45,7 @@
   <ItemGroup>
     <Folder Include="Assets\Images\" />
     <Folder Include="ConvertedFiles\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
   <ItemGroup>

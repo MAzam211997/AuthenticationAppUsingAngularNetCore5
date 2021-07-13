@@ -1,0 +1,88 @@
+<form   [formGroup]="productForm" (ngSubmit)="createProduct(productForm.value)" autocomplete="off" >
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card" >
+        <div class="card-header bg-white" >
+          <h4 class="card-title">Create New Product</h4>
+        </div>
+        <div class="card-block" style="width: 500px; margin-left: 20px;;">
+            <!-- <input type="hidden" name="userId" [value]="this.service.formData.userId" /> -->
+            <div class="form-group">
+              <label>Product Category</label>
+            <select  class="list form-control" id="categoryId" formControlName="categoryId" name="categoryId" >
+              <option [ngValue]="0" [selected]>Select Product Category --- </option>
+              <option *ngFor="let category of this.genericService.dataList" [value]="category.categoryId">
+                {{category.name}}
+              </option>
+            </select>
+          </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="name">Name</label>
+                <input id="name" type="text"  formControlName="name" class="form-control" placeholder="Name" >
+                <span *ngIf="!name.valid && name.touched" class="error-block">Fullname is Required.</span>
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="description">Description</label>
+                  <input id="description" type="text"  formControlName="description" class="form-control" placeholder="Description"   >
+                  <span *ngIf="!description.valid && description.touched" >
+                    <span class="error-block" *ngIf="description.hasError('required')">
+                    Email is Required.
+                    </span>
+                  </span>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="form-group col-md-6">
+                <label for="salePrice">Sale Price</label>
+                <input id="salePrice" type="number" formControlName="salePrice" class="form-control"  >
+                <span *ngIf="!salePrice.valid && salePrice.touched" class="error-block">
+                  <span class="error-block" *ngIf="salePrice.errors['required']">
+                    Sale Price is Required..
+                    </span>
+                </span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="unitPrice">Unit Price</label>
+                <input id="unitPrice" type="number" formControlName="unitPrice" class="form-control"  >
+                <span *ngIf="!unitPrice.valid && unitPrice.touched" class="error-block">
+                  <span class="error-block" *ngIf="unitPrice.errors['required']">
+                    Unit Price is Required..
+                    </span>
+                </span>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="creationDate">Creation Date</label>
+                <input id="creationDate" type="date" formControlName="creationDate" class="form-control"  >
+                <span *ngIf="!creationDate.valid && creationDate.touched" class="error-block">
+                  <span class="error-block" *ngIf="creationDate.errors['required']">
+                    Creation Date is Required..
+                    </span>
+                </span>
+            </div>
+
+
+
+
+            <!-- <div class="row">
+            <div class="form-group col-md-6">
+              <label>Picture</label>
+
+            </div>
+
+            <div class="form-group col-md-6">
+              <img style="border-radius: 100px; " alt="Product Picture" height="100" width="100" class="thumbnail" />
+            </div>
+          </div> -->
+          <div class="form-group " style="float: right;">
+            <br>
+              <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid" >Submit</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+

@@ -1,11 +1,9 @@
-import { Options } from '../models/Options.model';
 import { FormFields } from '../models/FormFields.model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Questions } from '../models/Questions.model';
 import { OptionsDto } from '../DTOs/OptionsDto.model';
-import { ResultDto } from '../DTOs/ResultDto.model';
 
 @Injectable({
   providedIn: 'root'

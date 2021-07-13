@@ -18,6 +18,8 @@ namespace AuthenticationApp.Data
 		public DbSet<Questions> Questions{ get; set; }
 		public DbSet<Options> Options { get; set; }
 		public DbSet<SubmittedAnswers> SubmittedAnswers { get; set; }
+		public DbSet<Category> Category { get; set; }
+		public DbSet<Product> Product { get; set; }
 
 
 
