@@ -14,6 +14,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using iTextSharp.tool.xml;
 using SelectPdf;
+using Wkhtmltopdf.NetCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,9 +25,11 @@ namespace AuthenticationApp.Controllers
     public class ExporterController : ControllerBase
     {
         private readonly IJsReportMVCService _jsReportMVCService;
+        readonly IGeneratePdf _generatePdf;
 
-        public ExporterController(IJsReportMVCService jsReportMVCService)
+        public ExporterController(IJsReportMVCService jsReportMVCService, IGeneratePdf generatePdf)
         {
+            _generatePdf = generatePdf;
             _jsReportMVCService = jsReportMVCService;
         }
         // GET: api/<ExporterController>
@@ -39,6 +42,28 @@ namespace AuthenticationApp.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("Html_To_Pdf")]
+        public async Task<IActionResult> Html_To_Pdf()
+        {
+            String data = "<form   [formGroup]='exporterForm' autocomplete='off' >< div class='row'>  <div class='col - md - 6'> <div class='card' >   <div class='card - header bg - white' ><h4 class='card - title'>Download File As Word OR PDF</h4></div><div class='card - block' style='width: 500px; margin - left: 20px; ; '> <div class='row'><div class='form - group col - md - 6'><label for='Name'>Name</label><input id = 'name' type='text'  formControlName='name' class='form - control' placeholder='Name' > </div><div class='form - group col - md - 6'><label for='email'>Email</label><input id = 'email' type='text' formControlName='email' validateEmail class='form - control' placeholder='Email'   >  </div> </div> <div class='row'><div class='form - group col - md - 6'> <label for='address'>Address</label> <input id = 'address' type='text' formControlName='address' class='form - control' placeholder='Address' ></div><div class='form - group ' style='float: right; '> <br><br><br><button class='btn btn-success' [disabled]='exporterForm.invalid' style='margin - left: 110px; '  (click)='downloadAsPDF()'>Download As PDF File</button> &nbsp;&nbsp; &emsp; <button class='btn btn-primary' [disabled]='exporterForm.invalid' (click)='downloadAsWord('pdfTable', 'Word - File')'>Download As Word File</button> </div></div></div></div></div></div></form>";
+            return await _generatePdf.GetPdf("~/ClientApp/src/app/exporter/export-to-pdf/export-to-pdf.component.html");
+            //var options = new ConvertOptions
+            //{
+            //    EnableForms = true,
+            //    PageHeight = 700,
+            //    PageWidth = 300,
+            //    IsGrayScale = true
+            //};
+
+            //_generatePdf.SetConvertOptions(options);
+
+            //var pdf = await _generatePdf.GetByteArray("~/ClientApp/src/app/exporter/export-to-pdf/export-to-pdf.component.html");
+            //var pdfStream = new System.IO.MemoryStream();
+            //pdfStream.Write(pdf, 0, pdf.Length);
+            //pdfStream.Position = 0;
+            //return new FileStreamResult(pdfStream, "application/pdf");
+        }
 
         [HttpPost("DownloadPDF")]
         [MiddlewareFilter(typeof(JsReportPipeline))]

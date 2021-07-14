@@ -70,7 +70,7 @@ import { FileManagerComponent } from './exporter/file-manager/file-manager.compo
     //TooltipModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-       { path: '', component: AddProductComponent, pathMatch: 'full' },
+       { path: '', component: ExportToPDFComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },

@@ -30,7 +30,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-md-6">
+              <!-- <div class="form-group col-md-6">
                 <label for="address">Address</label>
                 <input id="address" type="text" formControlName="address" class="form-control" placeholder="Address" >
                 <span *ngIf="!address.valid && address.touched" class="error-block">
@@ -38,11 +38,11 @@
                     Address is Required..
                     </span>
                 </span>
-              </div>
+              </div> -->
           <div class="form-group " style="float: right;">
             <br>       <br>       <br>
-            <button class="btn btn-success" [disabled]="exporterForm.invalid" style="margin-left: 110px;"  (click)="downloadAsPDF()">Download As PDF File</button> &nbsp;&nbsp; &emsp;
-            <button class="btn btn-primary" [disabled]="exporterForm.invalid" (click)="downloadAsWord('pdfTable','Word-File')">Download As Word File</button>
+            <a class="btn btn-success" style="margin-left: 110px;" target="_blank" (click)="downloadPDF()">Download As PDF File</a> &nbsp;&nbsp; &emsp;
+            <button class="btn btn-primary"  (click)="downloadAsWord('pdfTable','Word-File')">Download As Word File</button>
             </div>
         </div>
       </div>

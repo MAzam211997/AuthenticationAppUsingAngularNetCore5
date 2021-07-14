@@ -1,0 +1,72 @@
+﻿<form [formGroup]="exporterForm" autocomplete="off">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h4 class="card-title">Download File As Word OR PDF</h4>
+                </div>
+                <div class="card-block" style="width: 500px; margin-left: 20px;;">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="Name">Name</label>
+                            <input id="name" type="text" formControlName="name" class="form-control" placeholder="Name">
+                            <span *ngIf="!name.valid && name.touched" class="error-block">Name is Required.</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input id="email" type="text" formControlName="email" validateEmail class="form-control" placeholder="Email">
+                            <span *ngIf="!email.valid && email.touched">
+                                <span class="error-block" *ngIf="email.hasError('required')">
+                                    Email is Required.
+                                </span>
+                                <span class="error-block" *ngIf="email.hasError('email')">
+                                    A valid email is Required.
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="address">Address</label>
+                            <input id="address" type="text" formControlName="address" class="form-control" placeholder="Address">
+                            <span *ngIf="!address.valid && address.touched" class="error-block">
+                                <span class="error-block" *ngIf="address.errors['required']">
+                                    Address is Required..
+                                </span>
+                            </span>
+                        </div>
+                        <div class="form-group " style="float: right;">
+                            <br>       <br>       <br>
+                            <button class="btn btn-success" [disabled]="exporterForm.invalid" style="margin-left: 110px;" (click)="downloadAsPDF()">Download As PDF File</button> &nbsp;&nbsp; &emsp;
+                            <button class="btn btn-primary" [disabled]="exporterForm.invalid" (click)="downloadAsWord('pdfTable','Word-File')">Download As Word File</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="col col-md-12" style="display: none;">
+    <div id="pdfTable" style=" color: red;" #pdfTable>
+        <h2>This PDF file is generated from HTML.</h2> <br>
+        <table border="3" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>{{name.value}}</th>
+                    <th>{{email.value}}</th>
+                    <th>{{address.value}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

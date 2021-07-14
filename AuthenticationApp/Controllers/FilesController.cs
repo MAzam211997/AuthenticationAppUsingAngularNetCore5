@@ -62,6 +62,44 @@ namespace AuthenticationApp.Controllers
             }
             return Ok();
         }
+        [HttpGet]
+        public IActionResult GetFiles(string fileName="")
+        {
+            FileClass fileObj = new FileClass();
+            fileObj.Name = fileName;
+            string path = $"{_hostEnvironment.WebRootPath}\\Files\\";
+            int fileId = 1;
+            foreach (var pdfPath in Directory.EnumerateFiles(path,"*.pdf"))
+            {
+                fileObj.Files.Add(new FileClass()
+                {
+                    FileId = fileId++,
+                    Name = Path.GetFileName(pdfPath),
+                    Path = pdfPath
+                });
+            }
+            return Ok(fileObj);
+        }
+        
+        [HttpPost("SaveFile")]
+        public IActionResult SaveFile(IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment)
+        {
+            string fileName = $"{_hostEnvironment.WebRootPath}\\Files\\{file.FileName}";
+            using (FileStream fileStream=System.IO.File.Create(fileName))
+            {
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+            }
+            return Ok();
+        }
+        
+        
+        public IActionResult PdfViewerNewTab(string fileName)
+        {
+            string path = $"{_hostEnvironment.WebRootPath}\\Files\\{fileName}";
+            return File(System.IO.File.ReadAllBytes(path), "application/pdf");
+        }
+
         // Utility
         #region public void ProcessDirectory(string targetDirectory)
         // Process all files in the directory passed in, recurse on any directories 

@@ -20,6 +20,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Wkhtmltopdf.NetCore;
 
 namespace AuthenticationApp
 {
@@ -67,10 +68,7 @@ namespace AuthenticationApp
             //Mapper.CreateMap<QuestionsDto, Questions>();
 
             //services.AddExceptionHandler();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthenticationApp", Version = "v1" });
-            //});
+            services.AddWkhtmltopdf();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

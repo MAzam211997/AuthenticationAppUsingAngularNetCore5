@@ -8,6 +8,7 @@ import htmlToPdfmake from 'html-to-pdfmake';
 
 import { ExporterService } from 'src/app/shared/services/exporter.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-export-to-pdf',
   templateUrl: './export-to-pdf.component.html',
@@ -17,7 +18,7 @@ export class ExportToPDFComponent implements OnInit {
   exporterForm: any;
   @ViewChild('pdfTable', {static: false}) pdfTable: ElementRef;
 
-  constructor(private exporter:ExporterService,private toastr: ToastrService) { }
+  constructor(private exporter:ExporterService,private toastr: ToastrService,private router: Router) { }
 
 
 
@@ -87,21 +88,17 @@ export class ExportToPDFComponent implements OnInit {
  get address(){
     return this.exporterForm.get('address') as FormControl;
  }
-    downloadPDF(data)
+    downloadPDF()
     {
       debugger
-      JSON.stringify(data);
-      this.exporter.downloadToPDF(data).subscribe((creationStatus) => {
+      this.exporter.downloadToPDF();
 
-       }, (error) => {
-         console.log(error);
-       });
+      //this.router.navigateByUrl('export-to-word');
     }
     downloadWord(data)
     {
       debugger
       this.exporter.downloadToWord(data).subscribe((creationStatus) => {
-
        }, (error) => {
          console.log(error);
        });

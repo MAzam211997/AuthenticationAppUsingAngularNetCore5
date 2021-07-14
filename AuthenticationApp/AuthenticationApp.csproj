@@ -33,6 +33,7 @@
     <PackageReference Include="Spire.PDF" Version="7.6.15" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
     <PackageReference Include="Syncfusion.DocIO.WinForms" Version="19.2.0.46" />
+    <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +45,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\Images\" />
-    <Folder Include="ConvertedFiles\" />
+    <Folder Include="Rotativa\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 

@@ -15,9 +15,9 @@ export class ExporterService {
   //   this.http.get(this.baseURL+'').toPromise().then(result=>this.data=result as any[]);
   // }
 
-  downloadToPDF(details)
+  downloadToPDF()
   {
-    return this.http.post(this.baseURL+'DownloadPDF', details);
+   this.http.get(this.baseURL+'Html_To_Pdf').toPromise().then(result=>this.data=result as any[]);
   }
 
 

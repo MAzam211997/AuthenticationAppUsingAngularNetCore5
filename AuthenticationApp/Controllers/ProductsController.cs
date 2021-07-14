@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AuthenticationApp.Data;
 using AuthenticationApp.Models;
+using AuthenticationApp.ViewModels;
 
 namespace AuthenticationApp.Controllers
 {
@@ -23,17 +24,19 @@ namespace AuthenticationApp.Controllers
 
         // GET: api/Products
         [HttpGet("GetProducts")]
-        public ActionResult<IEnumerable<Product>> GetProducts()
+        public ActionResult<IEnumerable<ProductDto>> GetProducts()
         {
-            var product = from p in _context.Product.ToList()
-                          select new Product()
-                          {
-                              ProductId = p.ProductId,
-                              Name = p.Name
-                          };
-            return product.ToList();
+            var products = _context.Product.Select(p=> new ProductDto()
+            {
+                ProductId = p.ProductId,
+                Name = p.Name
+            }).ToList();
+            return products.ToList();
         }
-
+        protected T Test<T>(T parameter)
+        {
+            return parameter;
+        }
         // GET: api/Products
         [HttpGet("GetCategories")]
         public ActionResult<IEnumerable<Category>> GetCategories()
