@@ -49,4 +49,32 @@ export class DownloadComponent implements OnInit {
       }
     );
   }
+  public downloadFile() {
+    this.downloadStatus.emit( {status: ProgressStatusEnum.START});
+    this.service.download(this.fileName).subscribe(
+      data => {
+        switch (data.type) {
+          case HttpEventType.DownloadProgress:
+            this.downloadStatus.emit( {status: ProgressStatusEnum.IN_PROGRESS, percentage: Math.round((data.loaded / data.total) * 100)});
+            break;
+          case HttpEventType.Response:
+            this.downloadStatus.emit( {status: ProgressStatusEnum.COMPLETE});
+            const downloadedFile = new Blob([data.body], { type: data.body.type });
+            const a = document.createElement('a');
+            a.setAttribute('style', 'display:none;');
+            document.body.appendChild(a);
+            a.download = this.fileName;
+            a.href = URL.createObjectURL(downloadedFile);
+            a.target = '_blank';
+            a.click();
+            document.body.removeChild(a);
+            this.toastr.success('File has been downloaded successfully.', 'Download Successful !');
+            break;
+        }
+      },
+      error => {
+        this.downloadStatus.emit( {status: ProgressStatusEnum.ERROR});
+      }
+    );
+  }
 }

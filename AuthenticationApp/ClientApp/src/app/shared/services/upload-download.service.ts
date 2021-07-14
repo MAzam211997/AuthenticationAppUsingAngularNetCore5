@@ -55,6 +55,18 @@ export class UploadDownloadService {
         reportProgress: true
       }));
   }
+
+  public download(file: any): Observable<HttpEvent<Blob>> {
+    return this.httpClient.request(new HttpRequest(
+      'GET',
+      `
+      "https://localhost:44326/api/Files/GetFile?file=${file}`,
+      null,
+      {
+        reportProgress: true,
+        responseType: 'blob'
+      }));
+  }
   public getFiles(): Observable<string[]> {
     return this.httpClient.get<string[]>(this.apiFileUrl);
   }

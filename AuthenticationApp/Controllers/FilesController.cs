@@ -62,12 +62,12 @@ namespace AuthenticationApp.Controllers
             }
             return Ok();
         }
-        [HttpGet]
-        public IActionResult GetFiles(string fileName="")
+        [HttpGet("GetFile")]
+        public IActionResult GetFile(IFormFile file)
         {
             FileClass fileObj = new FileClass();
-            fileObj.Name = fileName;
-            string path = $"{_hostEnvironment.WebRootPath}\\Files\\";
+            //fileObj.Name = fileName;
+            string path = $"{_hostEnvironment.WebRootPath}\\";
             int fileId = 1;
             foreach (var pdfPath in Directory.EnumerateFiles(path,"*.pdf"))
             {
@@ -96,7 +96,7 @@ namespace AuthenticationApp.Controllers
         
         public IActionResult PdfViewerNewTab(string fileName)
         {
-            string path = $"{_hostEnvironment.WebRootPath}\\Files\\{fileName}";
+            string path = $"{_hostEnvironment.WebRootPath}\\{fileName}";
             return File(System.IO.File.ReadAllBytes(path), "application/pdf");
         }
 
