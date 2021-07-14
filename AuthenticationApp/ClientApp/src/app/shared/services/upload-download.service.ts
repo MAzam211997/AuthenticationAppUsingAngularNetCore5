@@ -36,13 +36,25 @@ export class UploadDownloadService {
 
     return this.httpClient.request(new HttpRequest(
       'POST',
-      this.apiUploadUrl,
+      "https://localhost:44326/api/Files/SaveFile",
       formData,
       {
         reportProgress: true
       }));
   }
 
+  public upload(file: Blob): Observable<HttpEvent<void>> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.httpClient.request(new HttpRequest(
+      'POST',
+      this.apiUploadUrl,
+      formData,
+      {
+        reportProgress: true
+      }));
+  }
   public getFiles(): Observable<string[]> {
     return this.httpClient.get<string[]>(this.apiFileUrl);
   }

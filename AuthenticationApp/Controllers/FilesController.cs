@@ -82,9 +82,9 @@ namespace AuthenticationApp.Controllers
         }
         
         [HttpPost("SaveFile")]
-        public IActionResult SaveFile(IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment)
+        public IActionResult SaveFile(IFormFile file)
         {
-            string fileName = $"{_hostEnvironment.WebRootPath}\\Files\\{file.FileName}";
+            string fileName = $"{_hostEnvironment.WebRootPath}\\{file.FileName}";
             using (FileStream fileStream=System.IO.File.Create(fileName))
             {
                 file.CopyTo(fileStream);

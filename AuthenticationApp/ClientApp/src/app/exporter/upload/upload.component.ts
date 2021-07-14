@@ -19,6 +19,21 @@ export class UploadComponent implements OnInit {
   }
   ngOnInit() {
   }
+
+  public ulopadFile(event)
+  {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.service.uploadFile(file).subscribe(
+        data => {
+        },
+        error => {
+          this.uploadStatus.emit({status: ProgressStatusEnum.ERROR});
+        }
+      );
+    }
+  }
+
   public upload(event) {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
