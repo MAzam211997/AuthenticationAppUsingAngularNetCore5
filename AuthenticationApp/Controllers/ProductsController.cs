@@ -23,16 +23,28 @@ namespace AuthenticationApp.Controllers
 
         // GET: api/Products
         [HttpGet("GetProducts")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public ActionResult<IEnumerable<Product>> GetProducts()
         {
-            return await _context.Product.ToListAsync();
+            var product = from p in _context.Product.ToList()
+                          select new Product()
+                          {
+                              ProductId = p.ProductId,
+                              Name = p.Name
+                          };
+            return product.ToList();
         }
-        
+
         // GET: api/Products
         [HttpGet("GetCategories")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public ActionResult<IEnumerable<Category>> GetCategories()
         {
-            return await _context.Category.ToListAsync();
+            var category = from cat in _context.Category.ToList()
+                           select new Category()
+                           {
+                               CategoryId = cat.CategoryId,
+                               Name = cat.Name
+                           };
+            return category.ToList();
         }
 
         // GET: api/Products/5

@@ -22,7 +22,7 @@ export class GenericCRUDService<T> {
   getAll(subUrl: any,dataList: any[])
   {
     debugger
-    this.http.get(this.apiUrl+subUrl).toPromise().then(result=>this.dataList=result as any[]);
+    this.http.get(this.apiUrl+subUrl).toPromise().then(result=>dataList=result as any[]);
   }
   createEntity(body: T,subUrl: any): Observable<T> {
     return this.http.post<T>(this.apiUrl+subUrl, body);

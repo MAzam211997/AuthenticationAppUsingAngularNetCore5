@@ -10,12 +10,21 @@
             <div class="form-group">
               <label>Product Category</label>
             <select  class="list form-control" id="categoryId" formControlName="categoryId" name="categoryId" >
-              <option [ngValue]="0" [selected]>Select Product Category --- </option>
-              <option *ngFor="let category of this.genericService.dataList" [value]="category.categoryId">
+              <option value="0" [selected]>Select Product Category --- </option>
+              <option *ngFor="let category of this.categories" [value]="category.categoryId">
                 {{category.name}}
               </option>
             </select>
           </div>
+          <div class="form-group">
+            <label>Product</label>
+          <select  class="list form-control" id="categoryId" formControlName="categoryId" name="categoryId" >
+            <option value="0" [selected]>Select Product --- </option>
+            <option *ngFor="let product of this.products" [value]="product.productId">
+              {{product.name}}
+            </option>
+          </select>
+        </div>
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="name">Name</label>

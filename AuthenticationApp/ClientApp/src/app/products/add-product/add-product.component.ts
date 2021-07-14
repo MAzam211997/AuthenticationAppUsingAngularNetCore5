@@ -15,12 +15,24 @@ export class AddProductComponent implements OnInit {
 genericService:GenericCRUDService<category>;
 objProduct:product;
   productForm: any;
-  categories:category[];
+  categories:any[]=new Array();
+  products:any[]=new Array();;
   obj:string;
   constructor(private http:HttpClient,private toastr: ToastrService)
   {
     this.genericService=new GenericCRUDService<category>(this.http, 'Products');
-    this.genericService.getAll('/GetCategories',this.categories);
+     this.genericService.fetchEntities('/GetCategories').subscribe((data) => {
+      this.categories=data;
+     }, (error) => {
+       console.log(error);
+     });
+
+     this.genericService=new GenericCRUDService<product>(this.http, 'Products');
+     this.genericService.fetchEntities('/GetProducts').subscribe((data) => {
+      this.products=data;
+     }, (error) => {
+       console.log(error);
+     });
   }
 
   ngOnInit()
