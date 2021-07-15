@@ -1,22 +1,27 @@
 <form   [formGroup]="productForm" (ngSubmit)="createProduct(productForm.value)" autocomplete="off" >
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
       <div class="card" >
+        <hr>
         <div class="card-header bg-white" >
           <h4 class="card-title">Create New Product</h4>
         </div>
-        <div class="card-block" style="width: 500px; margin-left: 20px;;">
+        <hr>
+        <div class="card-block" style=" margin-left: 40px;;">
             <!-- <input type="hidden" name="userId" [value]="this.service.formData.userId" /> -->
-            <div class="form-group">
+           <div class="row">
+            <div class="form-group col-md-8">
               <label>Product Category</label>
-            <select  class="list form-control" id="categoryId" formControlName="categoryId" name="categoryId" >
-              <option value="0" [selected]>Select Product Category --- </option>
+            <select  class="form-control" id="categoryId" formControlName="categoryId" name="categoryId" >
+              <!-- <option value="0" [selected]>Select Product Category --- </option> -->
               <option *ngFor="let category of this.categories" [value]="category.categoryId">
                 {{category.name}}
               </option>
             </select>
+            <span *ngIf="!categoryId.valid && categoryId.touched" class="error-block">Category is Required.</span>
           </div>
-          <div class="form-group">
+           </div>
+          <!-- <div class="form-group">
             <label>Product</label>
           <select  class="list form-control" id="categoryId" formControlName="categoryId" name="categoryId" >
             <option value="0" [selected]>Select Product --- </option>
@@ -24,26 +29,26 @@
               {{product.name}}
             </option>
           </select>
-        </div>
+        </div> -->
             <div class="row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-8">
                 <label for="name">Name</label>
                 <input id="name" type="text"  formControlName="name" class="form-control" placeholder="Name" >
-                <span *ngIf="!name.valid && name.touched" class="error-block">Fullname is Required.</span>
+                <span *ngIf="!name.valid && name.touched" class="error-block">Name is Required.</span>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-8">
                   <label for="description">Description</label>
                   <input id="description" type="text"  formControlName="description" class="form-control" placeholder="Description"   >
                   <span *ngIf="!description.valid && description.touched" >
                     <span class="error-block" *ngIf="description.hasError('required')">
-                    Email is Required.
+                      Description is Required.
                     </span>
                   </span>
               </div>
             </div>
             <div class="row">
 
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-4">
                 <label for="salePrice">Sale Price</label>
                 <input id="salePrice" type="number" formControlName="salePrice" class="form-control"  >
                 <span *ngIf="!salePrice.valid && salePrice.touched" class="error-block">
@@ -52,7 +57,7 @@
                     </span>
                 </span>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-4">
                 <label for="unitPrice">Unit Price</label>
                 <input id="unitPrice" type="number" formControlName="unitPrice" class="form-control"  >
                 <span *ngIf="!unitPrice.valid && unitPrice.touched" class="error-block">
@@ -62,7 +67,8 @@
                 </span>
               </div>
             </div>
-            <div class="form-group">
+            <div class="row">
+            <div class="form-group col-md-8">
                 <label for="creationDate">Creation Date</label>
                 <input id="creationDate" type="date" formControlName="creationDate" class="form-control"  >
                 <span *ngIf="!creationDate.valid && creationDate.touched" class="error-block">
@@ -71,7 +77,7 @@
                     </span>
                 </span>
             </div>
-
+          </div>
 
 
 
@@ -85,13 +91,61 @@
               <img style="border-radius: 100px; " alt="Product Picture" height="100" width="100" class="thumbnail" />
             </div>
           </div> -->
-          <div class="form-group " style="float: right;">
+
+          <div class="form-group " style="margin-left: 170px;;">
             <br>
               <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid" >Submit</button>
             </div>
         </div>
       </div>
     </div>
+    <div class="col-md-7">
+      <table class="table table-hover table-bordered table-sm table-striped text-info">
+        <tr>
+          <th>Product ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Unit Price</th>
+          <th>Sale Price</th>
+          <th>Creation Date</th>
+          <th>Actions</th>
+        </tr>
+
+        <tr *ngFor="let product of this.products">
+          <td>{{product.productId}}</td>
+          <td>{{product.name | uppercase}}</td>
+          <td>{{product.description | uppercase}}</td>
+          <td>{{product.unitPrice | currency:'PKR ':true}}</td>
+          <td>{{product.salePrice | currency:'PKR ':true}}</td>
+          <td>{{product.createdOn | date:'mediumDate'}}</td>
+          <td>
+
+            <a  routerLink="/dashboard" class="fas fa-pencil text-info"  ></a>
+            &nbsp;
+            <a  routerLink="/dashboard"
+            class="fas fa-save text-success" data-toggle="tooltip" tooltip="Tooltip on top" placement="top" data-placement="top" title="Save this record" >
+
+          </a>
+            <!-- {{form.value | json}} -->
+            &nbsp;
+            <a class="fas fa-trash text-danger"  ></a>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
   </form>
+  <!-- <ngx-doc-viewer
+  [url]="'https://drive.google.com/file/d/0B5ImRpiNhCfGZDVhMGEyYmUtZTdmMy00YWEyLWEyMTQtN2E2YzM3MDg3MTZh/preview'"
+  viewer="google"
+  style="width:100%;height:50vh;"
+></ngx-doc-viewer> -->
+<!-- <br><br><br><br><br><br><br><br>
+<ngx-doc-viewer
+  [viewerUrl]="'https://docs.google.com/gview?url=%URL%&embedded=true'"
+  [url]="'https://file-examples.com/wp-content/uploads/2017/02/file-sample_100kB.doc'"
+  viewer="url"
+  style="width:100%;height:50px;"
+>
+</ngx-doc-viewer> -->
 

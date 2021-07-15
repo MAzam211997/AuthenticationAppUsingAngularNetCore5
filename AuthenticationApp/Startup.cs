@@ -66,7 +66,7 @@ namespace AuthenticationApp
             services.AddAutoMapper(typeof(Startup));
             services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
             //Mapper.CreateMap<QuestionsDto, Questions>();
-
+            services.Configure<FormOptions>(options => { options.MultipartBodyLengthLimit = 4294967295; });
             //services.AddExceptionHandler();
             services.AddWkhtmltopdf();
         }

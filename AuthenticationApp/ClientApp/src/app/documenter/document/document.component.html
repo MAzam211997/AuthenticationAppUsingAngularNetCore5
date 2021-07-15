@@ -7,4 +7,26 @@ webSocketURL="wss://backend.textcontrol.com?access-token=yourtoken">
 
 <br><br><br><br>
 <ejs-documenteditorcontainer #documenteditor_default [serviceUrl]='serviceLink' style="height:100%; width: 100%;"></ejs-documenteditorcontainer>
+<br><br>
+<ckeditor [editor]="Editor" style="height: 1000px;" data="<p>Hello, world!</p>"></ckeditor>
+<br><br><br><br>
+<!-- <ckeditor [editor]="Editor" data="<p>Hello, world!</p>" (ready)="onReady($event)"></ckeditor> -->
+<br><br><br><br>
+<div id="editor">
+	<p>This is the editor content.</p>
+</div>
+<script src="./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script>
+	ClassicEditor
+		.create( document.querySelector( '#editor' ) )
+		.then( editor => {
+			window.editor = editor;
+		} )
+		.catch( error => {
+			console.error( 'There was a problem initializing the editor.', error );
+		} );
+</script>
+
+<br><br><br><br>
+
 

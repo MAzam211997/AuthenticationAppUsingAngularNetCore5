@@ -7,6 +7,6 @@ export class product
   categoryId: number=0;
   salePrice: DoubleRange;
   unitPrice: DoubleRange;
-  createdOn: Date;
+  createdOn: Date=new Date();
   categories: category;
 }

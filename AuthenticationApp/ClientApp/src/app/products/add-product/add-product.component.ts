@@ -16,7 +16,7 @@ genericService:GenericCRUDService<category>;
 objProduct:product;
   productForm: any;
   categories:any[]=new Array();
-  products:any[]=new Array();;
+  products:product[];
   obj:string;
   constructor(private http:HttpClient,private toastr: ToastrService)
   {
@@ -26,13 +26,7 @@ objProduct:product;
      }, (error) => {
        console.log(error);
      });
-
-     this.genericService=new GenericCRUDService<product>(this.http, 'Products');
-     this.genericService.fetchEntities('/GetProducts').subscribe((data) => {
-      this.products=data;
-     }, (error) => {
-       console.log(error);
-     });
+     this.getAllProducts();
   }
 
   ngOnInit()
@@ -40,7 +34,7 @@ objProduct:product;
     this.productForm = new FormGroup
     ({
       name: new FormControl('',[Validators.required]),
-      description: new FormControl('', [Validators.required, Validators.email]),
+      description: new FormControl('', [Validators.required]),
       salePrice: new FormControl('', [Validators.required]),
       unitPrice: new FormControl('',[Validators.required]),
       creationDate: new FormControl('',[Validators.required]),
@@ -48,18 +42,32 @@ objProduct:product;
     });
   }
 
-  createProduct(formData)
+  getAllProducts()
   {
-    this.genericService.createEntity(formData,'/Products').subscribe((creationStatus) => {
-      this.toastr.success('Product has been created successfully.', 'Success !');
+    this.genericService=new GenericCRUDService<product>(this.http, 'Products');
+     this.genericService.fetchEntities('/GetProducts').subscribe((data) => {
+      this.products=data as product[];
      }, (error) => {
        console.log(error);
+     });
+  }
+  createProduct(product:product)
+  {
+    debugger
+    this.genericService.createEntity(product,'').subscribe((creationStatus) => {
+      this.getAllProducts();
+      this.toastr.success('Product has been created successfully.', 'Success !');
+     }, (error) => {
+       alert(error);
      });;
   }
 
   get name(){
     return this.productForm.get('name') as FormControl;
  }
+ get categoryId(){
+  return this.productForm.get('categoryId') as FormControl;
+}
  get description(){
     return this.productForm.get('description') as FormControl;
  }
@@ -72,7 +80,7 @@ objProduct:product;
  get creationDate(){
     return this.productForm.get('creationDate') as FormControl;
  }
- get categoryId(){
-    return this.productForm.get('categoryId') as FormControl;
- }
+//  get categoryId(){
+//     return this.productForm.get('categoryId') as FormControl;
+//  }
 }

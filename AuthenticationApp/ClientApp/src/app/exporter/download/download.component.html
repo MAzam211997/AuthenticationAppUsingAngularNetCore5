@@ -1,10 +1,7 @@
-<button
+<!-- <button
  [disabled]="disabled"
  class="button download"
  [ngClass]="{'disabled': disabled}"
- (click)="download()"><i class="fas fa-download"></i>&nbsp; Download</button>
+ (click)="download()"><i class="fas fa-download"></i>&nbsp; Download</button> -->
 
- <!-- <a target="_blank"
- class="button download"
- [ngClass]="{'disabled': disabled}"
- (click)="download()"><i class="fas fa-download"></i>&nbsp; Download</a> -->
+ <a  [routerLinkActive]="['link-active']" [routerLink]="['.']" target="_blank" class="button download" [ngClass]="{'disabled': disabled}" (click)="download()"><i class="fas fa-download"></i>&nbsp; Download</a>

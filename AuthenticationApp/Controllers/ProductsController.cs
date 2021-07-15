@@ -24,14 +24,9 @@ namespace AuthenticationApp.Controllers
 
         // GET: api/Products
         [HttpGet("GetProducts")]
-        public ActionResult<IEnumerable<ProductDto>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var products = _context.Product.Select(p=> new ProductDto()
-            {
-                ProductId = p.ProductId,
-                Name = p.Name
-            }).ToList();
-            return products.ToList();
+            return await _context.Product.Include(x=>x.Category).ToListAsync();
         }
         protected T Test<T>(T parameter)
         {

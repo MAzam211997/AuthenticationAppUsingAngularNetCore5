@@ -68,6 +68,8 @@ export class DownloadComponent implements OnInit {
             a.target = '_blank';
             a.click();
             document.body.removeChild(a);
+            window.open('location', '_self', '');
+            window.close();
             this.toastr.success('File has been downloaded successfully.', 'Download Successful !');
             break;
         }

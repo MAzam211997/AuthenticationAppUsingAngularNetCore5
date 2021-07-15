@@ -36,6 +36,8 @@ import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-docume
 import { QuestionsService } from './shared/services/questions.service';
 import { FileManagerComponent } from './exporter/file-manager/file-manager.component';
 //import { TooltipModule } from 'ng2-tooltip-directive/lib/tooltip.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,7 @@ import { FileManagerComponent } from './exporter/file-manager/file-manager.compo
     //TooltipModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-       { path: '', component: FileManagerComponent, pathMatch: 'full' },
+       { path: '', component: AddProductComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },
@@ -86,7 +88,8 @@ import { FileManagerComponent } from './exporter/file-manager/file-manager.compo
 
     ]),
     BrowserAnimationsModule,
-
+    CKEditorModule,
+    NgxDocViewerModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',

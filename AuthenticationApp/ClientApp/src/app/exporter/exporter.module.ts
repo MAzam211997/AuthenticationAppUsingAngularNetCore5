@@ -6,13 +6,14 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { FileManagerComponent } from './file-manager/file-manager.component';
 import { UploadComponent } from './upload/upload.component';
 import { DownloadComponent } from './download/download.component';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
   declarations: [ExportToPDFComponent, ExportToWordComponent, FileManagerComponent, UploadComponent, DownloadComponent],
   imports: [
-    CommonModule,FormsModule,FormGroup, FormBuilder, Validators, FormControl,ReactiveFormsModule
+    CommonModule,FormsModule,FormGroup, FormBuilder, Validators, FormControl,ReactiveFormsModule,RouterModule
   ]
 })
 export class ExporterModule { }
