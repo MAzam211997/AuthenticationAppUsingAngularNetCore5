@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace AuthenticationApp.Models
 {
-	public class Users
+	public class Users:IdentityUser
 	{
 		[Key]
 		public int UserId { get; set; }

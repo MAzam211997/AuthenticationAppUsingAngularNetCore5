@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using AuthenticationApp.Data;
 using AuthenticationApp.Extensions;
@@ -36,6 +37,12 @@ namespace AuthenticationApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.Configure<FormOptions>(options =>
             {
                 options.ValueLengthLimit = 1024 * 1024 * 100; // 100MB max len form data
@@ -63,6 +70,9 @@ namespace AuthenticationApp
                 option.MultipartBodyLengthLimit = int.MaxValue;
                 option.MemoryBufferThreshold = int.MaxValue;
             });
+            services.AddDistributedMemoryCache();
+
+
             services.AddAutoMapper(typeof(Startup));
             services.AddJsReport(new LocalReporting().UseBinary(JsReportBinary.GetBinary()).AsUtility().Create());
             //Mapper.CreateMap<QuestionsDto, Questions>();
@@ -74,6 +84,7 @@ namespace AuthenticationApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) //, ILogger logger
         {
+            app.UseSession();
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
             {
@@ -109,7 +120,6 @@ namespace AuthenticationApp
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
-
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,

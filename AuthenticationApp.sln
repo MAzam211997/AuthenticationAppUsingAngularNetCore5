@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationApp", "AuthenticationApp\AuthenticationApp.csproj", "{8B743B4F-A4FF-49F1-A40B-A3D7CB38D4A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationApp.Entities", "AuthenticationApp.Entities\AuthenticationApp.Entities.csproj", "{0E97266A-DB5F-4F6D-846C-0BB2D1A8E8F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationApp.Entities", "AuthenticationApp.Entities\AuthenticationApp.Entities.csproj", "{0E97266A-DB5F-4F6D-846C-0BB2D1A8E8F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Usage", "Identity.Usage\Identity.Usage.csproj", "{0DA87C7A-DF98-49E0-9E94-54BEC10BAAEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0E97266A-DB5F-4F6D-846C-0BB2D1A8E8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E97266A-DB5F-4F6D-846C-0BB2D1A8E8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E97266A-DB5F-4F6D-846C-0BB2D1A8E8F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA87C7A-DF98-49E0-9E94-54BEC10BAAEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA87C7A-DF98-49E0-9E94-54BEC10BAAEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA87C7A-DF98-49E0-9E94-54BEC10BAAEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA87C7A-DF98-49E0-9E94-54BEC10BAAEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

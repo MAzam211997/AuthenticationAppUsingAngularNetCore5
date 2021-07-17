@@ -28,6 +28,7 @@ namespace AuthenticationApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
+            var logginUser = HttpContext.Session.GetString("user");
             return await _context.Users.ToListAsync();
         }
 
@@ -62,12 +63,11 @@ namespace AuthenticationApp.Controllers
         public async Task<ActionResult<Users>> Login(Users user)
         {
             var users = await _context.Users.Where(x=>x.Email.Equals(user.Email) && x.Password.Equals(user.Password)).FirstOrDefaultAsync();
-
+            HttpContext.Session.SetString("user", users.Email);
             if (users == null)
             {
                 return NotFound();
             }
-
             return Ok(users);
         }
 

@@ -18,6 +18,27 @@ objProduct:product;
   categories:any[]=new Array();
   products:product[];
   obj:string;
+  config: any;
+
+  // config = {
+  //   id: 'custom',
+  //   itemsPerPage: 5,
+  //   currentPage: 1,
+  //   //totalItems: this.collection.count
+  // };
+
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public labels: any = {
+      previousLabel: '<--',
+      nextLabel: '-->',
+      screenReaderPaginationLabel: 'Pagination',
+      screenReaderPageLabel: 'page',
+      screenReaderCurrentLabel: `You're on page`
+  };
+
   constructor(private http:HttpClient,private toastr: ToastrService)
   {
     this.genericService=new GenericCRUDService<category>(this.http, 'Products');
@@ -27,8 +48,19 @@ objProduct:product;
        console.log(error);
      });
      this.getAllProducts();
+     this.config = {
+      itemsPerPage: 5,
+      currentPage: 1,
+      //totalItems: this.collection.count
+    };
   }
-
+  pageChanged(event){
+    this.config.currentPage = event;
+  }
+  onPageChange(event){
+    console.log(event);
+    this.config.currentPage = event;
+  }
   ngOnInit()
   {
     this.productForm = new FormGroup

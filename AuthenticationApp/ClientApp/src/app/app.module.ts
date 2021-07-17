@@ -38,6 +38,7 @@ import { FileManagerComponent } from './exporter/file-manager/file-manager.compo
 //import { TooltipModule } from 'ng2-tooltip-directive/lib/tooltip.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     BrowserAnimationsModule,
     CKEditorModule,
     NgxDocViewerModule,
+    NgxPaginationModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',

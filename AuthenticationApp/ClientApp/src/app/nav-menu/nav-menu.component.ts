@@ -19,7 +19,7 @@ export class NavMenuComponent {
     this.isExpanded = !this.isExpanded;
   }
   public logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     this.router.navigate(['../login-form']);
   }
 }
